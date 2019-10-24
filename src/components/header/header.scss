@@ -1,3 +1,19 @@
-// header {
-//     color: $theme-highlight;
-// }
+@import '../../common/scss/color.scss';
+
+header {
+    height: 50px;
+    background-color: $theme-highlight;
+    display: flex;
+    color: white;
+    .back,
+    .next {
+        line-height: 50px;
+        .iconfont {
+            font-size: 20px;
+        }
+    }
+    .back {
+        margin-left: 50px;
+        margin-right: 20px;
+    }
+}

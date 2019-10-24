@@ -1,0 +1,14 @@
+.sideInner {
+    background-color: #F5F5F7;
+    height: 100%;
+    padding: 0 15px;
+    p {
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        .iconfont {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    }
+}

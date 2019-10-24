@@ -1,0 +1,10 @@
+.content {
+  display: flex;
+  height: calc(100vh - 50px);
+  .sideBarWrap {
+    flex-basis: 200px;
+  }
+  .main {
+    flex: 1;
+  }
+}
