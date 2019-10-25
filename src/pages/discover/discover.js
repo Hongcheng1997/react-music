@@ -1,5 +1,6 @@
 import React from 'react'
 import { Carousel } from 'element-react'
+import RecommendSongs from '@/components/recommend-songs/recommend-songs'
 import axios from '_axios'
 import './discover.scss'
 
@@ -7,12 +8,14 @@ class Discover extends React.Component {
   constructor() {
     super()
     this.state = {
-      imgList: []
+      imgList: [],
+      songSheet: [1]
     }
   }
 
   componentDidMount() {
     this.getBanner()
+    this.getSongSheet()
   }
 
   render() {
@@ -29,15 +32,28 @@ class Discover extends React.Component {
             })}
           </Carousel>
         </div>
+        <div>
+          <RecommendSongs data={this.state.songSheet}/>
+        </div>
       </div>
     )
   }
 
   getBanner() {
     axios('banner').then(res => {
-      if (res.data.code === 200) {
+      if (res.code === 200) {
         this.setState({
-          imgList: res.data.banners
+          imgList: res.banners
+        })
+      }
+    })
+  }
+
+  getSongSheet() {
+    axios('personalized').then(res => {
+      if (res.code === 200) {
+        this.setState({
+          songSheet: res.result
         })
       }
     })

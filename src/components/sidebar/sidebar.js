@@ -6,7 +6,16 @@ class Sidebar extends React.Component {
     return (
       <div className="sideInner">
         <p>
-          <i className="iconfont icon-music"></i>发现音乐
+          <i className="iconfont icon-music"></i>个性推荐
+        </p>
+        <p>
+          <i className="iconfont icon-music"></i>排行榜
+        </p>
+        <p>
+          <i className="iconfont icon-music"></i>歌手
+        </p>
+        <p>
+          <i className="iconfont icon-music"></i>歌单
         </p>
       </div>
     )

@@ -309,6 +309,7 @@ module.exports = function(webpackEnv) {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling'
         }),
+        '@': _resolve('src'),
         '_axios': _resolve('src/axios'),
         ...(modules.webpackAliases || {})
       },
