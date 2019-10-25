@@ -48,6 +48,8 @@ const cssModuleRegex = /\.module\.css$/
 const sassRegex = /\.(scss|sass)$/
 const sassModuleRegex = /\.module\.(scss|sass)$/
 
+const _resolve = dir => path.join(__dirname, '..', dir)
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
@@ -307,6 +309,7 @@ module.exports = function(webpackEnv) {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling'
         }),
+        '_axios': _resolve('src/axios'),
         ...(modules.webpackAliases || {})
       },
       plugins: [

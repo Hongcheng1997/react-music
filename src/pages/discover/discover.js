@@ -1,22 +1,29 @@
 import React from 'react'
 import { Carousel } from 'element-react'
+import axios from '_axios'
 import './discover.scss'
 
-const imgList = [
-  'http://p1.music.126.net/58e4BC8iPZOYomzamARtzA==/109951164445608808.jpg',
-  'http://p1.music.126.net/hRJA-Y4dJQNW77whuuC8wQ==/109951164444891048.jpg',
-  'http://p1.music.126.net/Usy35LGvaxU8dm41y_7p3Q==/109951164444907059.jpg'
-]
 class Discover extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      imgList: []
+    }
+  }
+
+  componentDidMount() {
+    this.getBanner()
+  }
+
   render() {
     return (
       <div className="discover">
         <div className="carousel">
           <Carousel interval="4000" type="card" height="200px">
-            {imgList.map((item, index) => {
+            {this.state.imgList.map((item, index) => {
               return (
                 <Carousel.Item key={index}>
-                  <img src={item} alt="" />
+                  <img src={item.imageUrl} alt="" />
                 </Carousel.Item>
               )
             })}
@@ -24,6 +31,16 @@ class Discover extends React.Component {
         </div>
       </div>
     )
+  }
+
+  getBanner() {
+    axios('banner').then(res => {
+      if (res.data.code === 200) {
+        this.setState({
+          imgList: res.data.banners
+        })
+      }
+    })
   }
 }
 
