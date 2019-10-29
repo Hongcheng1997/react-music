@@ -11,6 +11,9 @@ import {
 } from 'react-router-dom'
 
 const Discover = lazy(() => import('./pages/discover/discover'))
+const Singer = lazy(() => import('./pages/singer/singer'))
+const RankingList = lazy(() => import('./pages/ranking-list/ranking-list'))
+const SongSheet = lazy(() => import('./pages/song-sheet/song-sheet'))
 
 class App extends Component {
   render() {
@@ -26,6 +29,9 @@ class App extends Component {
               <Suspense fallback={<p>1</p>}>
                 <Switch>
                   <Route path="/discover" component={Discover} />
+                  <Route path="/singer" component={Singer} />
+                  <Route path="/ranking-list" component={RankingList} />
+                  <Route path="/song-sheet" component={SongSheet} />
                   <Redirect to="/discover" />
                 </Switch>
               </Suspense>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-axios.defaults.baseURL = 'http://10.0.26.189:3000/'
+axios.defaults.baseURL = 'http://120.79.15.59:3000/'
 
 axios.interceptors.response.use(function (response) {
   return response.data
