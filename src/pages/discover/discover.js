@@ -9,7 +9,7 @@ class Discover extends React.Component {
     super()
     this.state = {
       imgList: [],
-      songSheet: [1]
+      songSheet: []
     }
   }
 
@@ -33,7 +33,7 @@ class Discover extends React.Component {
           </Carousel>
         </div>
         <div>
-          <RecommendSongs data={this.state.songSheet}/>
+          <RecommendSongs data={this.state.songSheet} />
         </div>
       </div>
     )
@@ -50,7 +50,7 @@ class Discover extends React.Component {
   }
 
   getSongSheet() {
-    axios('personalized').then(res => {
+    axios('personalized', { limit: 10 }).then(res => {
       if (res.code === 200) {
         this.setState({
           songSheet: res.result

@@ -1,24 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './recommend-songs.scss'
 
-class RecommendSongs extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  render() {
-    return (
+const RecommendSongs = props => {
+  return (
+    <div className="RecommendSongs">
+      <p className="song-title">推荐歌单</p>
       <ul>
-        <li>
-          <div>
-            <img src="" alt=""></img>
-          </div>
-          <p></p>
-        </li>
+        {props.data.map(item => (
+          <li>
+            <div>
+              <img src={item.picUrl} alt=""></img>
+            </div>
+            <p>{item.name}</p>
+          </li>
+        ))}
       </ul>
-    )
-  }
+    </div>
+  )
 }
 
 export default RecommendSongs

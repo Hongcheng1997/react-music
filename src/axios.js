@@ -10,7 +10,7 @@ axios.interceptors.response.use(function (response) {
 })
 
 function fetch(url, query) {
-  return axios.get(url, query)
+  return axios.get(url, { params: query })
 }
 
 fetch.post = function(url, query) {

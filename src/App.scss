@@ -1,8 +1,11 @@
+@import './common/scss/size.scss';
+
 .content {
   display: flex;
-  height: calc(100vh - 50px);
+  height: calc(100vh - #{$header-height} - #{$min-play-height} - 1px);
   .sideBarWrap {
     flex-basis: 200px;
+    height: 100%;
   }
   .main {
     flex: 1;

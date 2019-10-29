@@ -1,5 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react'
 import Header from './components/header/header'
+import Play from './components/play/play'
 import Sidebar from './components/sidebar/sidebar'
 import './App.scss'
 import 'element-theme-default'
@@ -37,6 +38,7 @@ class App extends Component {
               </Suspense>
             </div>
           </div>
+          <Play></Play>
         </div>
       </Router>
     )

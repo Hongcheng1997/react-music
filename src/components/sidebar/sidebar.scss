@@ -1,5 +1,7 @@
+@import '../../common/scss/color.scss';
+
 .sideInner {
-  background-color: #f5f5f7;
+  background-color: $gray-background;
   height: 100%;
   padding: 0 15px;
   div {
