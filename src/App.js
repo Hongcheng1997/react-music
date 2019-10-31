@@ -2,6 +2,7 @@ import React, { Component, lazy, Suspense } from 'react'
 import Header from './components/header/header'
 import Player from './components/player/player'
 import Sidebar from './components/sidebar/sidebar'
+import MusicTab from './components/music-tab/music-tab'
 import './App.scss'
 import 'element-theme-default'
 import {
@@ -26,6 +27,7 @@ class App extends Component {
           <div className="content">
             <div className="sideBarWrap">
               <Sidebar />
+              <MusicTab />
             </div>
             <div className="main">
               <Suspense fallback={<p>1</p>}>

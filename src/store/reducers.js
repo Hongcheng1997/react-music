@@ -3,7 +3,9 @@ import * as ActionTypes from './actionTypes'
 
 // 初始数据
 const initialState = {
-  playStatus: false
+  playStatus: false,
+  playList: [],
+  currentIndex: 0
 }
 
 function playStatus(playStatus = initialState.playStatus, action) {
@@ -15,8 +17,28 @@ function playStatus(playStatus = initialState.playStatus, action) {
   }
 }
 
+function playList(playList = initialState.playList, action) {
+  switch (action.type) {
+    case ActionTypes.SET_PLAY_List:
+      return action.playList
+    default:
+      return playList
+  }
+}
+
+function currentIndex(currentIndex = initialState.currentIndex, action) {
+  switch (action.type) {
+    case ActionTypes.SET_CURRENTINDEX:
+      return action.currentIndex
+    default:
+      return currentIndex
+  }
+}
+
 const reducer = combineReducers({
-  playStatus
+  playStatus,
+  playList,
+  currentIndex
 })
 
 export default reducer

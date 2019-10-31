@@ -1,8 +1,9 @@
+@import '../../common/scss/size.scss';
 @import '../../common/scss/color.scss';
 
 .sideInner {
   background-color: $gray-background;
-  height: 100%;
+  height: calc(100% - #{$music-tab-height});
   padding: 0 15px;
   div {
     height: 50px;

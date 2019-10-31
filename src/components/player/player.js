@@ -10,6 +10,7 @@ class Play extends Component {
   }
 
   render() {
+    // const {playList,currentIndex} = this.props
     return (
       <div className="play">
         <div className="cutSong">
@@ -42,7 +43,9 @@ class Play extends Component {
 }
 
 const mapStateToProps = state => ({
-  playStatus: state.playStatus
+  playStatus: state.playStatus,
+  playList: state.playList,
+  currentIndex: state.currentIndex
 })
 
 const mapDispatchToProps = dispatch => ({
