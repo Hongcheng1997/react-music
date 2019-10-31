@@ -29,7 +29,13 @@ class SongSheetDetails extends React.Component {
           {playlist.tracks &&
             playlist.tracks.map(item => {
               return (
-                <div key={item.id} className={style.song}>{item.name}</div>
+                <div
+                  key={item.id}
+                  className={style.song}
+                  onDoubleClick={this.getMusic.bind(this, item.id)}
+                >
+                  {item.name}
+                </div>
               )
             })}
         </div>
@@ -49,6 +55,16 @@ class SongSheetDetails extends React.Component {
         this.setState({
           playlist: res.playlist
         })
+      }
+    })
+  }
+
+  getMusic(id) {
+    axios('/song/url', {
+      id
+    }).then(res => {
+      if (res.code === 200) {
+        console.log(res)
       }
     })
   }

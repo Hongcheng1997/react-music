@@ -23,6 +23,10 @@ class Play extends Component {
             <i className="iconfont icon-bofangqi-xiayiji"></i>
           </div>
         </div>
+        <audio
+          ref="_audio"
+          src="http://m7.music.126.net/20191031153417/b74385bc92b868a78a2e8c9830948c1c/ymusic/5258/075f/065b/e24cfdda6a05bc4d9000117767b958ae.mp3"
+        ></audio>
       </div>
     )
   }
