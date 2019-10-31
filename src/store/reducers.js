@@ -3,7 +3,7 @@ import * as ActionTypes from './actionTypes'
 
 // 初始数据
 const initialState = {
-  num: false //Player显示状态
+  num: 1
 }
 
 function num(num = initialState.num, action) {

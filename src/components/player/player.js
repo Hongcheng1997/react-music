@@ -1,18 +1,12 @@
-import React from 'react'
-import './play.scss'
+import React, { Component } from 'react'
+import './player.scss'
 import { connect } from 'react-redux'
 import { setNum } from '../../store/actions'
 
-class Play extends React.Component {
+class Play extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-  }
-
-  componentDidMount() {
-    console.log(this.props)
-    this.props.setNum(true)
-    console.log(this.props)
   }
 
   render() {

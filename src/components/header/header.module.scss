@@ -1,7 +1,7 @@
 @import '../../common/scss/color.scss';
 @import '../../common/scss/size.scss';
 
-header {
+.header {
   height: $header-height;
   background-color: $theme-highlight;
   display: flex;

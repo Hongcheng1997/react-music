@@ -1,28 +1,34 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import './recommend-songs.scss'
 
-const RecommendSongs = props => {
-  const { data } = props
-  return (
-    <div className="RecommendSongs">
-      <p className="song-title">推荐歌单</p>
-      <ul>
-        {data.map((item, key) => (
-          <li key={key}>
-            <div>
-              <img src={item.picUrl} alt=""></img>
-            </div>
-            <p>{item.name}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+class RecommendSongs extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
-RecommendSongs.prototype = {
-  data: PropTypes.any.isRequired
+  render() {
+    const { data } = this.props
+    return (
+      <div className="RecommendSongs">
+        <p className="song-title">推荐歌单</p>
+        <ul>
+          {data.map((item, key) => (
+            <li key={key} onClick={this.toDetails.bind(this, item.id)}>
+              <div>
+                <img src={item.picUrl} alt=""></img>
+              </div>
+              <p>{item.name}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  toDetails(id) {
+    this.props.toDetails(id)
+  }
 }
 
 export default RecommendSongs

@@ -33,7 +33,10 @@ class Discover extends React.Component {
           </Carousel>
         </div>
         <div>
-          <RecommendSongs data={this.state.songSheet} />
+          <RecommendSongs
+            data={this.state.songSheet}
+            toDetails={this.toDetails.bind(this)}
+          />
         </div>
       </div>
     )
@@ -57,6 +60,10 @@ class Discover extends React.Component {
         })
       }
     })
+  }
+
+  toDetails(id) {
+    this.props.history.push({ pathname: `/song-sheet-details/${id}` })
   }
 }
 
