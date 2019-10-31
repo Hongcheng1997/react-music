@@ -1,1 +1,1 @@
-export const SET_SHOW_PLAYER = 'SET_SHOW_PLAYER' // 是否显示Player组件
+export const SET_PLAY_STATUS = 'SET_PLAY_STATUS' // 是否播放音乐

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './player.scss'
 import { connect } from 'react-redux'
-import { setNum } from '../../store/actions'
+import { setPlayStatus } from '../../store/actions'
 
 class Play extends Component {
   constructor(props) {
@@ -16,8 +16,11 @@ class Play extends Component {
           <div className="left">
             <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
           </div>
-          <div className="center">
-            <i className="iconfont icon-bofangqi-bofang"></i>
+          <div
+            className="center"
+            onClick={() => this.props.setPlayStatus(!this.props.playStatus)}
+          >
+            <i className={`iconfont ${this.iconStatus()}`}></i>
           </div>
           <div className="right">
             <i className="iconfont icon-bofangqi-xiayiji"></i>
@@ -30,15 +33,21 @@ class Play extends Component {
       </div>
     )
   }
+
+  iconStatus() {
+    return this.props.playStatus
+      ? 'icon-bofangqi-zanting'
+      : 'icon-bofangqi-bofang'
+  }
 }
 
 const mapStateToProps = state => ({
-  num: state.num
+  playStatus: state.playStatus
 })
 
 const mapDispatchToProps = dispatch => ({
-  setNum: status => {
-    dispatch(setNum(status))
+  setPlayStatus: status => {
+    dispatch(setPlayStatus(status))
   }
 })
 

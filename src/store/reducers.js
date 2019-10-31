@@ -3,20 +3,20 @@ import * as ActionTypes from './actionTypes'
 
 // 初始数据
 const initialState = {
-  num: 1
+  playStatus: false
 }
 
-function num(num = initialState.num, action) {
+function playStatus(playStatus = initialState.playStatus, action) {
   switch (action.type) {
-    case ActionTypes.SET_SHOW_PLAYER:
-      return action.num
+    case ActionTypes.SET_PLAY_STATUS:
+      return action.playStatus
     default:
-      return num
+      return playStatus
   }
 }
 
 const reducer = combineReducers({
-  num
+  playStatus
 })
 
 export default reducer

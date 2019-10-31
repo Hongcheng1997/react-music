@@ -1,6 +1,8 @@
 import React from 'react'
 import style from './song-sheet-details.module.scss'
 import axios from '_axios'
+import { connect } from 'react-redux'
+import { setPlayStatus } from '../../store/actions'
 
 class SongSheetDetails extends React.Component {
   constructor() {
@@ -65,9 +67,23 @@ class SongSheetDetails extends React.Component {
     }).then(res => {
       if (res.code === 200) {
         console.log(res)
+        this.props.setPlayStatus(true)
       }
     })
   }
 }
 
-export default SongSheetDetails
+const mapStateToProps = state => ({
+  playStatus: state.playStatus
+})
+
+const mapDispatchToProps = dispatch => ({
+  setPlayStatus: status => {
+    dispatch(setPlayStatus(status))
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SongSheetDetails)
