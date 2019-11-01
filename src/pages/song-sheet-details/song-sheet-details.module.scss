@@ -19,11 +19,63 @@
     .headerContent {
       flex: 1;
       padding: 0 20px;
+      cursor: default;
       h1 {
-        font-weight: bold;
-        font-size: $fontsize-large;
-        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: $fontsize-large-xxx;
+        margin-bottom: 20px;
       }
+      .tags {
+        font-size: $fontsize-medium;
+        margin-bottom: 20px;
+        span {
+          color: $bule;
+        }
+      }
+      .description {
+        font-size: $fontsize-medium;
+        line-height: 19px;
+      }
+    }
+  }
+  .song {
+    display: flex;
+    padding: 0 40px;
+    line-height: 30px;
+    cursor: default;
+    justify-content: space-between;
+    color: $gray-medium;
+    font-size: $fontsize-medium;
+    border-top: 1px solid $gray-light;
+    border-bottom: 1px solid $gray-light;
+    .number {
+      flex-basis: 25px;
+      border-right: 1px solid $gray-light;
+    }
+    .timer {
+      flex-basis: 50px;
+      padding: 0 10px;
+    }
+    .operation {
+      text-align: center;
+      flex-basis: 50px;
+      border-right: 1px solid $gray-light;
+      padding: 0 10px;
+      i:first-child {
+        margin-right: 5px;
+      }
+    }
+    .name {
+      flex: 1.5;
+      color: $gray-deep;
+      border-right: 1px solid $gray-light;
+      padding: 0 10px;
+    }
+    .album,
+    .singer {
+      flex: 1;
+      padding: 0 10px;
+      border-right: 1px solid $gray-light;
     }
   }
 }

@@ -22,10 +22,19 @@ class SongSheetDetails extends React.Component {
           <div className={style.headerContent}>
             <h1>{playlist.name}</h1>
             <p className={style.tags}>
-              标签：{playlist.tags && playlist.tags.join('、')}
+              标签：<span>{playlist.tags && playlist.tags.join(' / ')}</span>
             </p>
+            <p className={style.description}>简介：{playlist.description}</p>
           </div>
         </header>
+        <div className={`${style.song}`}>
+          <span className={style.number}></span>
+          <span className={style.operation}>操作</span>
+          <span className={style.name}>音乐标题</span>
+          <span className={style.singer}>歌手</span>
+          <span className={style.album}>专辑</span>
+          <span className={style.timer}>时长</span>
+        </div>
         <SongsTable tracks={playlist.tracks} />
       </div>
     )
