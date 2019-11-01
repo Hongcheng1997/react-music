@@ -4,12 +4,12 @@
 .sideInner {
   background-color: $gray-background;
   height: calc(100% - #{$music-tab-height});
-  padding: 0 15px;
   .item {
     height: 50px;
     line-height: 50px;
     cursor: pointer;
     display: flex;
+    padding: 0 15px;
     i {
       font-size: 16px;
       margin-right: 10px;
@@ -25,5 +25,9 @@
     a:hover {
       color: $gray-deep;
     }
+  }
+  .active {
+    background-color: $gray-light;
+    border-left: 2px solid $theme-highlight;
   }
 }

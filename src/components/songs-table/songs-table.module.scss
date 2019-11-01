@@ -41,7 +41,7 @@
   }
   .song:hover,
   .active {
-    background-color: $gray-light;
+    background-color: $gray-light!important;
   }
   .song:nth-child(odd) {
     background-color: #f5f5f7;

@@ -3,31 +3,42 @@ import { Link } from 'react-router-dom'
 import style from './sidebar.module.scss'
 
 class Sidebar extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      activeId: 0
+    }
+  }
+
   render() {
+    const list = [
+      { path: '/discover', name: '个性推荐' },
+      { path: '/ranking-list', name: '排行榜' },
+      { path: '/singer', name: '歌手' },
+      { path: '/song-sheet', name: '歌单' }
+    ]
+    const { activeId } = this.state
     return (
       <div className={style.sideInner}>
-        <div className={style.item}>
-          <Link to="/discover">
-            <i className="iconfont icon-music"></i>个性推荐
-          </Link>
-        </div>
-        <div className={style.item}>
-          <Link to="/ranking-list">
-            <i className="iconfont icon-music"></i>排行榜
-          </Link>
-        </div>
-        <div className={style.item}>
-          <Link to="/singer">
-            <i className="iconfont icon-music"></i>歌手
-          </Link>
-        </div>
-        <div className={style.item}>
-          <Link to="/song-sheet">
-            <i className="iconfont icon-music"></i>歌单
-          </Link>
-        </div>
+        {list.map((item, index) => (
+          <div
+            className={`${style.item} ${activeId === index ? style.active : ''}`}
+            onClick={() => this.select(index)}
+          >
+            <Link to={item.path}>
+              <i className="iconfont icon-music"></i>
+              {item.name}
+            </Link>
+          </div>
+        ))}
       </div>
     )
+  }
+
+  select(index) {
+    this.setState({
+      activeId: index
+    })
   }
 }
 
