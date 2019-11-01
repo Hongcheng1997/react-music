@@ -30,7 +30,7 @@ class App extends Component {
               <MusicTab />
             </div>
             <div className="main">
-              <Suspense fallback={<p>1</p>}>
+              <Suspense fallback={<p className="loading">正在加载中...</p>}>
                 <Switch>
                   <Route path="/discover" component={Discover} />
                   <Route path="/song-sheet-details/:id" component={SongSheetDetails} />
