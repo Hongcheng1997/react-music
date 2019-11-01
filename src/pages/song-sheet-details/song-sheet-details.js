@@ -1,8 +1,7 @@
 import React from 'react'
 import style from './song-sheet-details.module.scss'
 import axios from '_axios'
-import { connect } from 'react-redux'
-import { setPlayStatus, setPlayList, setCurrentIndex } from '../../store/actions'
+import SongsTable from '@/components/songs-table/songs-table'
 
 class SongSheetDetails extends React.Component {
   constructor() {
@@ -27,20 +26,7 @@ class SongSheetDetails extends React.Component {
             </p>
           </div>
         </header>
-        <div className={style.list}>
-          {playlist.tracks &&
-            playlist.tracks.map((item, index) => {
-              return (
-                <div
-                  key={item.id}
-                  className={style.song}
-                  onDoubleClick={this.getMusic.bind(this, item.id, index)}
-                >
-                  {item.name}
-                </div>
-              )
-            })}
-        </div>
+        <SongsTable tracks={playlist.tracks} />
       </div>
     )
   }
@@ -60,37 +46,6 @@ class SongSheetDetails extends React.Component {
       }
     })
   }
-
-  getMusic(id, index) {
-    axios('/song/url', {
-      id
-    }).then(res => {
-      if (res.code === 200) {
-        this.props.setPlayStatus(true)
-        this.props.setPlayList(this.state.playlist.tracks)
-        this.props.setCurrentIndex(index)
-      }
-    })
-  }
 }
 
-const mapStateToProps = state => ({
-  playStatus: state.playStatus
-})
-
-const mapDispatchToProps = dispatch => ({
-  setPlayStatus: status => {
-    dispatch(setPlayStatus(status))
-  },
-  setPlayList: status => {
-    dispatch(setPlayList(status))
-  },
-  setCurrentIndex: status => {
-    dispatch(setCurrentIndex(status))
-  }
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SongSheetDetails)
+export default SongSheetDetails
