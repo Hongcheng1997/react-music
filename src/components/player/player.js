@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import axios from '_axios'
-import './player.scss'
+import style from './player.module.scss'
 import { connect } from 'react-redux'
 import { setPlayStatus, setCurrentIndex } from '../../store/actions'
+import Progress from '../progress/progress'
 
 class Play extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Play extends Component {
   }
 
   bindEvent() {
-    this._audio.addEventListener('canplay', () => this._audio.play())
+    this._audio.addEventListener('canplay', this._audio.play)
     this._audio.addEventListener('ended', this.next)
   }
 
@@ -66,17 +67,20 @@ class Play extends Component {
     const currentMusic = playList[currentIndex] || {}
     this.getMusic(currentMusic.id)
     return (
-      <div className="play">
-        <div className="cutSong">
-          <div className="left" onClick={() => this.prev()}>
+      <div className={style.play}>
+        <div className={style.cutSong}>
+          <div className={style.left} onClick={() => this.prev()}>
             <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
           </div>
-          <div className="center" onClick={() => this.toggleStatus()}>
+          <div className={style.center} onClick={() => this.toggleStatus()}>
             <i className={`iconfont ${this.iconStatus()}`}></i>
           </div>
-          <div className="right" onClick={() => this.next()}>
+          <div className={style.right} onClick={() => this.next()}>
             <i className="iconfont icon-bofangqi-xiayiji"></i>
           </div>
+        </div>
+        <div className={style.progressWrap}>
+          <Progress />
         </div>
         <audio ref="_audio" src={this.state.url}></audio>
       </div>

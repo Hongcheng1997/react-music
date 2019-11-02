@@ -1,6 +1,7 @@
 import React from 'react'
 import style from './songs-table.module.scss'
 import { connect } from 'react-redux'
+import { filterTime, repairNumber } from '@/common/helper/utils'
 import {
   setPlayStatus,
   setPlayList,
@@ -16,8 +17,9 @@ class SongsTable extends React.Component {
   }
 
   render() {
-    const { tracks } = this.props
+    const { tracks, currentIndex, playList } = this.props
     const { activeId } = this.state
+    const currentMusic = playList[currentIndex] || {}
     return (
       <div className={style.list}>
         {tracks &&
@@ -27,12 +29,17 @@ class SongsTable extends React.Component {
                 key={item.id}
                 className={`${style.song} ${
                   activeId === index ? style.active : ''
-                }`}
+                  }`}
                 onClick={() => this.select(index)}
                 onDoubleClick={() => this.playMusic(tracks, index)}
               >
+                {
+                  currentMusic.id === item.id &&
+                  <span className={style.sound}><i className='iconfont icon-soundsize'></i></span>
+                }
+
                 <span className={style.number}>
-                  {this.repairNumber(index + 1)}
+                  {repairNumber(index + 1)}
                 </span>
                 <span className={style.operation}>
                   <i className="iconfont icon-aixin"></i>
@@ -41,7 +48,7 @@ class SongsTable extends React.Component {
                 <span className={style.name}>{item.name}</span>
                 <span className={style.singer}>{item.ar[0].name}</span>
                 <span className={style.album}>{item.al.name}</span>
-                <span className={style.timer}>{this.filterTime(item.dt)}</span>
+                <span className={style.timer}>{filterTime(item.dt)}</span>
               </div>
             )
           })}
@@ -60,20 +67,12 @@ class SongsTable extends React.Component {
       activeId: index
     })
   }
-
-  filterTime(time) {
-    const minute = this.repairNumber(parseInt(time.toFixed().substr(0, 3) / 60))
-    const second = this.repairNumber(+time.toFixed().substr(0, 3) - minute * 60)
-    return `${minute}:${second}`
-  }
-
-  repairNumber(number) {
-    if (number.toFixed().length === 1) {
-      return `0${number}`
-    }
-    return number
-  }
 }
+
+const mapStateToProps = state => ({
+  playList: state.playList,
+  currentIndex: state.currentIndex
+})
 
 const mapDispatchToProps = dispatch => ({
   setPlayStatus: status => {
@@ -88,6 +87,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SongsTable)

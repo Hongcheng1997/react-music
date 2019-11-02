@@ -10,6 +10,14 @@
     justify-content: space-between;
     color: $gray-medium;
     font-size: $fontsize-medium;
+    position: relative;
+    .sound {
+      position: absolute;
+      left: 10px;
+      i {
+        font-size: $fontsize-large-xx;
+      }
+    }
     .number {
       flex-basis: 25px;
     }
