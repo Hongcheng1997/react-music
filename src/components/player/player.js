@@ -11,7 +11,8 @@ class Play extends Component {
     super(props)
     this.state = {
       url: '',
-      musicId: 0
+      musicId: 0,
+      currentTime: 0
     }
   }
 
@@ -37,6 +38,7 @@ class Play extends Component {
   bindEvent() {
     this._audio.addEventListener('canplay', this._audio.play)
     this._audio.addEventListener('ended', this.next)
+    this._audio.addEventListener('timeupdate', this.timeupdate)
   }
 
   next = () => {
@@ -56,6 +58,12 @@ class Play extends Component {
     }
   }
 
+  timeupdate = () => {
+    this.setState({
+      currentTime: this._audio.currentTime
+    })
+  }
+
   iconStatus() {
     return this.props.playStatus
       ? 'icon-bofangqi-zanting'
@@ -64,6 +72,7 @@ class Play extends Component {
 
   render() {
     const { playList, currentIndex } = this.props
+    const { currentTime } = this.state
     const currentMusic = playList[currentIndex] || {}
     this.getMusic(currentMusic.id)
     return (
@@ -80,7 +89,7 @@ class Play extends Component {
           </div>
         </div>
         <div className={style.progressWrap}>
-          <Progress />
+          <Progress currentTime={currentTime} />
         </div>
         <audio ref="_audio" src={this.state.url}></audio>
       </div>

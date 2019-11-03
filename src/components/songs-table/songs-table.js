@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './songs-table.module.scss'
 import { connect } from 'react-redux'
-import { filterTime, repairNumber } from '@/common/helper/utils'
+import { formatTime, repairNumber } from '@/common/helper/utils'
 import {
   setPlayStatus,
   setPlayList,
@@ -48,7 +48,7 @@ class SongsTable extends React.Component {
                 <span className={style.name}>{item.name}</span>
                 <span className={style.singer}>{item.ar[0].name}</span>
                 <span className={style.album}>{item.al.name}</span>
-                <span className={style.timer}>{filterTime(item.dt)}</span>
+                <span className={style.timer}>{formatTime(item.dt.toFixed().substr(0, 3))}</span>
               </div>
             )
           })}

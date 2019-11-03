@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import style from './progress.module.scss'
-import { filterTime } from '@/common/helper/utils'
+import { formatTime } from '@/common/helper/utils'
 
 class Progress extends React.Component {
     constructor(props) {
@@ -27,19 +27,19 @@ class Progress extends React.Component {
     }
 
     render() {
-        const { playList, currentIndex } = this.props
+        const { playList, currentIndex, currentTime } = this.props
         const currentMusic = playList[currentIndex] || {}
         return (
             <div className={style.progress}>
-                <span className={style.time}>00:00</span>
+                <span className={style.time}>{formatTime(currentTime)}</span>
                 <div className={style.bar}>
-                    <div className={style.inner}>
+                    <div className={style.inner} style={{width: currentTime / currentMusic.dt * 100 + '%'}}>
                         <span className={style.point}>
                             <span className={style.pointInner}></span>
                         </span>
                     </div>
                 </div>
-                <span className={style.time}>{filterTime(currentMusic.dt)}</span>
+                <span className={style.time}>{formatTime(currentMusic.dt)}</span>
             </div>
         )
     }
