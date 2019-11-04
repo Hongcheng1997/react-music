@@ -39,6 +39,7 @@ class Play extends Component {
     this._audio.addEventListener('canplay', this._audio.play)
     this._audio.addEventListener('ended', this.next)
     this._audio.addEventListener('timeupdate', this.timeupdate)
+    console.log(this._audio.volume)
   }
 
   next = () => {
@@ -62,6 +63,10 @@ class Play extends Component {
     this.setState({
       currentTime: this._audio.currentTime
     })
+  }
+
+  setMusicTime = (time) => {
+    this._audio.currentTime = time
   }
 
   iconStatus() {
@@ -89,7 +94,7 @@ class Play extends Component {
           </div>
         </div>
         <div className={style.progressWrap}>
-          <Progress currentTime={currentTime} />
+          <Progress currentTime={currentTime} setMusicTime={this.setMusicTime} />
         </div>
         <audio ref="_audio" src={this.state.url}></audio>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import style from './progress.module.scss'
 import { formatTime } from '@/common/helper/utils'
@@ -10,6 +11,11 @@ class Progress extends React.Component {
             musicTime: 0,
             timer: null
         }
+    }
+
+    componentDidMount() {
+        this.barLeft = ReactDOM.findDOMNode(this.refs._bar).offsetLeft
+        this.barWidth = ReactDOM.findDOMNode(this.refs._bar).offsetWidth
     }
 
     refreshTime() {
@@ -26,14 +32,20 @@ class Progress extends React.Component {
         })
     }
 
+    resetTime(e, dt) {
+        const percent = (e.pageX - this.barLeft) / this.barWidth * 100
+        ReactDOM.findDOMNode(this.refs._inner).style.width = percent + '%'
+        this.props.setMusicTime(dt * percent / 100)
+    }
+
     render() {
         const { playList, currentIndex, currentTime } = this.props
         const currentMusic = playList[currentIndex] || {}
         return (
             <div className={style.progress}>
                 <span className={style.time}>{formatTime(currentTime)}</span>
-                <div className={style.bar}>
-                    <div className={style.inner} style={{width: currentTime / currentMusic.dt * 100 + '%'}}>
+                <div className={style.bar} ref="_bar" onClick={(e) => this.resetTime(e, currentMusic.dt)}>
+                    <div className={style.inner} ref="_inner" style={{ width: currentTime / currentMusic.dt * 100 + '%' }}>
                         <span className={style.point}>
                             <span className={style.pointInner}></span>
                         </span>

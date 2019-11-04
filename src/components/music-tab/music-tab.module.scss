@@ -7,6 +7,7 @@
   padding: 10px;
   box-sizing: border-box;
   display: flex;
+  border-top: 1px solid $gray-light;
   .musicHead {
     width: calc(#{$music-tab-height} - 20px);
     height: calc(#{$music-tab-height} - 20px);
