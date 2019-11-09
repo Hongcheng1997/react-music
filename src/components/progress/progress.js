@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
 import style from './progress.module.scss'
 import { formatTime } from '@/common/helper/utils'
 
@@ -32,36 +31,28 @@ class Progress extends React.Component {
         })
     }
 
-    resetTime(e, dt) {
-        const percent = (e.pageX - this.barLeft) / this.barWidth * 100
-        ReactDOM.findDOMNode(this.refs._inner).style.width = percent + '%'
-        this.props.setMusicTime(dt * percent / 100)
+    resetTime(e) {
+        const percent = (e.pageX - this.barLeft) / this.barWidth
+        ReactDOM.findDOMNode(this.refs._inner).style.width = percent * 100 + '%'
+        this.props.setPoint(percent)
     }
 
     render() {
-        const { playList, currentIndex, currentTime } = this.props
-        const currentMusic = playList[currentIndex] || {}
+        const { currentTime, proportion, totalTime } = this.props
         return (
             <div className={style.progress}>
-                <span className={style.time}>{formatTime(currentTime)}</span>
-                <div className={style.bar} ref="_bar" onClick={(e) => this.resetTime(e, currentMusic.dt)}>
-                    <div className={style.inner} ref="_inner" style={{ width: currentTime / currentMusic.dt * 100 + '%' }}>
+                {currentTime && <span className={style.time}>{formatTime(currentTime)}</span>}
+                <div className={style.bar} ref="_bar" onClick={(e) => this.resetTime(e)}>
+                    <div className={style.inner} ref="_inner" style={{ width: proportion * 100 + '%' }}>
                         <span className={style.point}>
                             <span className={style.pointInner}></span>
                         </span>
                     </div>
                 </div>
-                <span className={style.time}>{formatTime(currentMusic.dt)}</span>
+                {totalTime && <span className={style.time}>{formatTime(totalTime)}</span>}
             </div>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    playList: state.playList,
-    currentIndex: state.currentIndex
-})
-
-export default connect(
-    mapStateToProps
-)(Progress)
+export default Progress

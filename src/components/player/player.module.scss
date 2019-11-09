@@ -40,4 +40,16 @@
     align-items: center;
     margin-left: 20px;
   }
+  .voice {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    i {
+      font-size: $fontsize-large-xxx;
+    }
+    .volumeWrap {
+      width: 130px;
+      height: 5px;
+    }
+  }
 }

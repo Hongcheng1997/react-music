@@ -12,12 +12,14 @@ class Play extends Component {
     this.state = {
       url: '',
       musicId: 0,
-      currentTime: 0
+      currentTime: 0,
+      volume: 0
     }
   }
 
   componentDidMount() {
     this._audio = ReactDOM.findDOMNode(this.refs._audio)
+    this.setVolume()
     this.bindEvent()
   }
 
@@ -39,7 +41,6 @@ class Play extends Component {
     this._audio.addEventListener('canplay', this._audio.play)
     this._audio.addEventListener('ended', this.next)
     this._audio.addEventListener('timeupdate', this.timeupdate)
-    console.log(this._audio.volume)
   }
 
   next = () => {
@@ -65,8 +66,8 @@ class Play extends Component {
     })
   }
 
-  setMusicTime = (time) => {
-    this._audio.currentTime = time
+  setMusicTime = (percent) => {
+    this._audio.currentTime = this.props.playList[this.props.currentIndex].dt * percent
   }
 
   iconStatus() {
@@ -75,9 +76,16 @@ class Play extends Component {
       : 'icon-bofangqi-bofang'
   }
 
+  setVolume = percent => {
+    if (percent !== undefined) this._audio.volume = percent
+    this.setState({
+      volume: this._audio.volume
+    })
+  }
+
   render() {
     const { playList, currentIndex } = this.props
-    const { currentTime } = this.state
+    const { currentTime, volume } = this.state
     const currentMusic = playList[currentIndex] || {}
     this.getMusic(currentMusic.id)
     return (
@@ -94,7 +102,17 @@ class Play extends Component {
           </div>
         </div>
         <div className={style.progressWrap}>
-          <Progress currentTime={currentTime} setMusicTime={this.setMusicTime} />
+          <Progress
+            proportion={currentTime / currentMusic.dt}
+            currentTime={currentTime}
+            totalTime={currentMusic.dt}
+            setPoint={this.setMusicTime} />
+        </div>
+        <div className={style.voice}>
+          <i className="iconfont icon-soundsize"></i>
+          <div className={style.volumeWrap}>
+            <Progress proportion={volume} setPoint={this.setVolume} />
+          </div>
         </div>
         <audio ref="_audio" src={this.state.url}></audio>
       </div>
