@@ -4,7 +4,24 @@ import * as ActionTypes from './actionTypes'
 // 初始数据
 const initialState = {
   playStatus: false,
-  playList: [],
+  playList: [{
+    "name": "绿洲",
+    "id": 1400047314,
+    "ar": [{
+      "id": 12002248,
+      "name": "沈以诚",
+      "tns": [],
+      "alias": []
+    }],
+    "al": {
+      "id": 2801259,
+      "name": "rice & shine",
+      "picUrl": "https://p2.music.126.net/asKHHNuQsKDD39lvGoIqhw==/109951164457857234.jpg?param=34y34",
+      "tns": [],
+      "pic": 5962651557619306
+    },
+    "dt": 243
+  }],
   currentIndex: 0
 }
 

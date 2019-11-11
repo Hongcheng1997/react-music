@@ -6,9 +6,8 @@
     display: flex;
     align-items: center;
     .time {
-        flex-basis: 80px;
-        text-align: center;
         color: $gray-medium;
+        margin-left: 15px;
     }
     .bar {
         flex: 1;

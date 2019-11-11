@@ -79,7 +79,7 @@ class Progress extends React.Component {
                         </span>
                     </div>
                 </div>
-                {showTimer && <span className={style.time}>{formatTime(currentTime) + '/' + formatTime(totalTime)}</span>}
+                {showTimer && <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(totalTime)}`}</span>}
             </div>
         )
     }

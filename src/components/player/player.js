@@ -44,10 +44,18 @@ class Play extends Component {
   }
 
   next = () => {
+    if (this.props.currentIndex === this.props.playList.length - 1) {
+      this.props.setCurrentIndex(0)
+      return
+    }
     this.props.setCurrentIndex(this.props.currentIndex + 1)
   }
 
   prev() {
+    if (this.props.currentIndex - 1 <= 0) {
+      this.props.setCurrentIndex(0)
+      return
+    }
     this.props.setCurrentIndex(this.props.currentIndex - 1)
   }
 
