@@ -106,6 +106,7 @@ class Play extends Component {
             proportion={currentTime / currentMusic.dt}
             currentTime={currentTime}
             totalTime={currentMusic.dt}
+            showTimer="true"
             setPoint={this.setMusicTime} />
         </div>
         <div className={style.voice}>

@@ -8,13 +8,15 @@ class Progress extends React.Component {
         super(props)
         this.state = {
             musicTime: 0,
-            timer: null
+            timer: null,
+            padding: false
         }
     }
 
     componentDidMount() {
         this.barLeft = ReactDOM.findDOMNode(this.refs._bar).offsetLeft
         this.barWidth = ReactDOM.findDOMNode(this.refs._bar).offsetWidth
+        this.pointWidthHalf = ReactDOM.findDOMNode(this.refs._point).clientWidth / 2
     }
 
     refreshTime() {
@@ -31,25 +33,53 @@ class Progress extends React.Component {
         })
     }
 
-    resetTime(e) {
-        const percent = (e.pageX - this.barLeft) / this.barWidth
-        ReactDOM.findDOMNode(this.refs._inner).style.width = percent * 100 + '%'
+    onMouseDown(e) {
+        const percent = this.setPoint(e)
         this.props.setPoint(percent)
+        this.setState({
+            padding: true
+        })
+    }
+
+    onMouseMove(e) {
+        if (this.state.padding) {
+            this.setPoint(e)
+        }
+    }
+
+    onMouseUp(e) {
+        const percent = this.setPoint(e)
+        this.props.setPoint(percent)
+        this.setState({
+            padding: false
+        })
+    }
+
+    setPoint(e) {
+        const X = Math.min(Math.max(e.pageX, this.barLeft - this.pointWidthHalf), this.barLeft + this.barWidth - this.pointWidthHalf)
+        const percent = (X - this.barLeft + this.pointWidthHalf) / this.barWidth
+        ReactDOM.findDOMNode(this.refs._inner).style.width = percent * 100 + '%'
+        return percent
     }
 
     render() {
-        const { currentTime, proportion, totalTime } = this.props
+        const { currentTime, proportion, totalTime, showTimer } = this.props
         return (
             <div className={style.progress}>
-                {currentTime && <span className={style.time}>{formatTime(currentTime)}</span>}
-                <div className={style.bar} ref="_bar" onClick={(e) => this.resetTime(e)}>
+                <div
+                    className={style.bar}
+                    ref="_bar"
+                    onMouseDown={(e) => this.onMouseDown(e)}
+                    onMouseMove={(e) => this.onMouseMove(e)}
+                    onMouseUp={(e) => this.onMouseUp(e)}
+                >
                     <div className={style.inner} ref="_inner" style={{ width: proportion * 100 + '%' }}>
-                        <span className={style.point}>
+                        <span ref="_point" className={style.point}>
                             <span className={style.pointInner}></span>
                         </span>
                     </div>
                 </div>
-                {totalTime && <span className={style.time}>{formatTime(totalTime)}</span>}
+                {showTimer && <span className={style.time}>{formatTime(currentTime) + '/' + formatTime(totalTime)}</span>}
             </div>
         )
     }
