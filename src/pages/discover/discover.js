@@ -11,6 +11,7 @@ class Discover extends React.Component {
       imgList: [],
       songSheet: []
     }
+    this.toDetails = this.toDetails.bind(this)
   }
 
   componentDidMount() {
@@ -19,11 +20,12 @@ class Discover extends React.Component {
   }
 
   render() {
+    const { imgList, songSheet } = this.state
     return (
       <div className="discover">
         <div className="carousel">
           <Carousel interval="4000" type="card" height="200px">
-            {this.state.imgList.map((item, index) => {
+            {imgList.map((item, index) => {
               return (
                 <Carousel.Item key={index}>
                   <img src={item.imageUrl} alt="" />
@@ -34,8 +36,8 @@ class Discover extends React.Component {
         </div>
         <div>
           <RecommendSongs
-            data={this.state.songSheet}
-            toDetails={this.toDetails.bind(this)}
+            data={songSheet}
+            toDetails={this.toDetails}
           />
         </div>
       </div>

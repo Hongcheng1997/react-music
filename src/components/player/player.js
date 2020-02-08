@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import axios from '_axios'
-import style from './player.module.scss'
 import { connect } from 'react-redux'
 import { setPlayStatus, setCurrentIndex } from '../../store/actions'
 import Progress from '../progress/progress'
+import style from './player.module.scss'
 
 class Play extends Component {
   constructor(props) {
@@ -15,6 +15,43 @@ class Play extends Component {
       currentTime: 0,
       volume: 0
     }
+  }
+
+  render() {
+    const { playList, currentIndex } = this.props
+    const { currentTime, volume, url } = this.state
+    const currentMusic = playList[currentIndex] || {}
+    this.getMusic(currentMusic.id)
+    return (
+      <div className={style.play}>
+        <div className={style.cutSong}>
+          <div className={style.left} onClick={() => this.prev()}>
+            <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
+          </div>
+          <div className={style.center} onClick={() => this.toggleStatus()}>
+            <i className={`iconfont ${this.iconStatus()}`}></i>
+          </div>
+          <div className={style.right} onClick={() => this.next()}>
+            <i className="iconfont icon-bofangqi-xiayiji"></i>
+          </div>
+        </div>
+        <div className={style.progressWrap}>
+          <Progress
+            proportion={currentTime / currentMusic.dt}
+            currentTime={currentTime}
+            totalTime={currentMusic.dt}
+            showTimer="true"
+            setPoint={this.setMusicTime} />
+        </div>
+        <div className={style.voice}>
+          <i className="iconfont icon-soundsize"></i>
+          <div className={style.volumeWrap}>
+            <Progress proportion={volume} setPoint={this.setVolume} />
+          </div>
+        </div>
+        <audio ref="_audio" src={url}></audio>
+      </div>
+    )
   }
 
   componentDidMount() {
@@ -91,42 +128,6 @@ class Play extends Component {
     })
   }
 
-  render() {
-    const { playList, currentIndex } = this.props
-    const { currentTime, volume } = this.state
-    const currentMusic = playList[currentIndex] || {}
-    this.getMusic(currentMusic.id)
-    return (
-      <div className={style.play}>
-        <div className={style.cutSong}>
-          <div className={style.left} onClick={() => this.prev()}>
-            <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
-          </div>
-          <div className={style.center} onClick={() => this.toggleStatus()}>
-            <i className={`iconfont ${this.iconStatus()}`}></i>
-          </div>
-          <div className={style.right} onClick={() => this.next()}>
-            <i className="iconfont icon-bofangqi-xiayiji"></i>
-          </div>
-        </div>
-        <div className={style.progressWrap}>
-          <Progress
-            proportion={currentTime / currentMusic.dt}
-            currentTime={currentTime}
-            totalTime={currentMusic.dt}
-            showTimer="true"
-            setPoint={this.setMusicTime} />
-        </div>
-        <div className={style.voice}>
-          <i className="iconfont icon-soundsize"></i>
-          <div className={style.volumeWrap}>
-            <Progress proportion={volume} setPoint={this.setVolume} />
-          </div>
-        </div>
-        <audio ref="_audio" src={this.state.url}></audio>
-      </div>
-    )
-  }
 }
 
 const mapStateToProps = state => ({
