@@ -6,18 +6,18 @@ class Sidebar extends React.Component {
   constructor() {
     super()
     this.state = {
-      activeId: 0
+      activeId: 0,
+      list: [
+        { path: '/discover', name: '个性推荐' },
+        { path: '/ranking-list', name: '排行榜' },
+        { path: '/singer', name: '歌手' },
+        { path: '/song-sheet', name: '歌单' }
+      ]
     }
   }
 
   render() {
-    const list = [
-      { path: '/discover', name: '个性推荐' },
-      { path: '/ranking-list', name: '排行榜' },
-      { path: '/singer', name: '歌手' },
-      { path: '/song-sheet', name: '歌单' }
-    ]
-    const { activeId } = this.state
+    const { activeId, list } = this.state
     return (
       <div className={style.sideInner}>
         {list.map((item, index) => (
@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
             key={index}
             className={`${style.item} ${
               activeId === index ? style.active : ''
-            }`}
+              }`}
             onClick={() => this.select(index)}
           >
             <Link to={item.path}>
