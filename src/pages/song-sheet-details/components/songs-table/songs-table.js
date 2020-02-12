@@ -70,8 +70,8 @@ class SongsTable extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  playList: state.get('playList').toJS(),
-  currentIndex: state.get('currentIndex')
+  playList: state.getIn(['common', 'playList']).toJS(),
+  currentIndex: state.getIn(['common', 'currentIndex'])
 })
 
 const mapDispatchToProps = dispatch => ({

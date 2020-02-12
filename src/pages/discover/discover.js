@@ -1,26 +1,13 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { actionCreators } from './store'
 import { Carousel } from 'element-react'
 import RecommendSongs from './components/recommend-songs/recommend-songs'
-import axios from '_axios'
 import style from './discover.module.scss'
 
-class Discover extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      imgList: [],
-      songSheet: []
-    }
-    this.toDetails = this.toDetails.bind(this)
-  }
-
-  componentDidMount() {
-    this.getBanner()
-    this.getSongSheet()
-  }
-
+class Discover extends PureComponent {
   render() {
-    const { imgList, songSheet } = this.state
+    const { imgList, songSheet } = this.props
     return (
       <div className={style.discover}>
         <div className={style.carousel}>
@@ -35,38 +22,34 @@ class Discover extends React.Component {
           </Carousel>
         </div>
         <div>
-          <RecommendSongs
-            data={songSheet}
-            toDetails={this.toDetails}
-          />
+          <RecommendSongs data={songSheet} />
         </div>
       </div>
     )
   }
 
-  getBanner() {
-    axios('banner').then(res => {
-      if (res.code === 200) {
-        this.setState({
-          imgList: res.banners
-        })
-      }
-    })
-  }
-
-  getSongSheet() {
-    axios('personalized', { limit: 10 }).then(res => {
-      if (res.code === 200) {
-        this.setState({
-          songSheet: res.result
-        })
-      }
-    })
-  }
-
-  toDetails(id) {
-    this.props.history.push({ pathname: `/song-sheet-details/${id}` })
+  componentDidMount() {
+    this.props.getBanner()
+    this.props.getSongSheet()
   }
 }
 
-export default Discover
+const mapStateToProps = (state) => {
+  return {
+    imgList: state.getIn(['discover', 'imgList']).toJS(),
+    songSheet: state.getIn(['discover', 'songSheet']).toJS()
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBanner() {
+      dispatch(actionCreators.getBanner())
+    },
+    getSongSheet() {
+      dispatch(actionCreators.getSongSheet())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Discover)

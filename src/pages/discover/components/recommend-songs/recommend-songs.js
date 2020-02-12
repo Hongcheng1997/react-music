@@ -1,34 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import style from './recommend-songs.module.scss'
+import { Link } from 'react-router-dom'
 
-class RecommendSongs extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
-  render() {
-    const { data } = this.props
-    return (
-      <div className={style.RecommendSongs}>
-        <p className={style.songTitle}>推荐歌单</p>
-        <ul>
-          {data.map((item, key) => (
-            <li key={key} onClick={this.toDetails.bind(this, item.id)}>
+const RecommendSongs = props => {
+  const { data } = props
+  return (
+    <div className={style.RecommendSongs}>
+      <p className={style.songTitle}>推荐歌单</p>
+      <ul>
+        {data.map((item, key) => (
+          <Link key={key} to={`/song-sheet-details/${item.id}`}>
+            <li>
               <div>
                 <img src={item.picUrl} alt=""></img>
               </div>
               <p>{item.name}</p>
             </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
-
-  toDetails(id) {
-    this.props.toDetails(id)
-  }
+          </Link>
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default RecommendSongs

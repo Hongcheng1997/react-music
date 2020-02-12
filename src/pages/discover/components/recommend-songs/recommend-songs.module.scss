@@ -1,5 +1,5 @@
-@import '../../../../common/scss/color.scss';
-@import '../../../../common/scss/size.scss';
+@import "../../../../common/scss/color.scss";
+@import "../../../../common/scss/size.scss";
 
 .RecommendSongs {
   .song-title {
@@ -15,24 +15,27 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    li {
+    a {
       flex-basis: 200px;
       display: flex;
       flex-direction: column;
-      div {
-        flex-basis: 200px;
-        height: 200px;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+      text-decoration: none;
+      li {
+        div {
+          flex-basis: 200px;
+          height: 200px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
         }
-      }
-      p {
-        color: $gray-deep;
-        margin: 10px 0;
-        line-height: 20px;
-        font-size: $fontsize-medium;
+        p {
+          color: $gray-deep;
+          margin: 10px 0;
+          line-height: 20px;
+          font-size: $fontsize-medium;
+        }
       }
     }
   }

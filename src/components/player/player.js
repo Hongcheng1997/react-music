@@ -134,9 +134,9 @@ class Play extends Component {
 
 const mapStateToProps = state => {
   return {
-    playStatus: state.get('playStatus'),
-    playList: state.get('playList').toJS(),
-    currentIndex: state.get('currentIndex')
+    playStatus: state.getIn(['common', 'playStatus']),
+    playList: state.getIn(['common', 'playList']).toJS(),
+    currentIndex: state.getIn(['common', 'currentIndex'])
   }
 }
 

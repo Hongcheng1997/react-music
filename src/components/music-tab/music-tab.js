@@ -22,8 +22,8 @@ class MusicTab extends Component {
 
 const mapStateToProps = state => {
   return {
-    playList: state.get('playList').toJS(),
-    currentIndex: state.get('currentIndex')
+    playList: state.getIn(['common', 'playList']).toJS(),
+    currentIndex: state.getIn(['common', 'currentIndex'])
   }
 }
 

@@ -1,5 +1,6 @@
-// import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
 import { fromJS } from 'immutable'
+import { reducer as discoverReducer } from '../pages/discover/store'
 import * as ActionTypes from './actionTypes'
 
 const defaultState = fromJS({
@@ -25,17 +26,22 @@ const defaultState = fromJS({
   currentIndex: 0
 })
 
-const reducer = (state = defaultState, action) => {
-  if (action.type === ActionTypes.SET_PLAY_STATUS) {
-    return state.set('playStatus', action.playStatus)
+function commonReducers(state = defaultState, action) {
+  switch (action.type) {
+    case ActionTypes.SET_PLAY_STATUS:
+      return state.set('playStatus', action.playStatus);
+    case ActionTypes.SET_PLAY_List:
+      return state.set('playList', action.playList);
+    case ActionTypes.SET_CURRENTINDEX:
+      return state.set('currentIndex', action.currentIndex);
+    default:
+      return state
   }
-  if (action.type === ActionTypes.SET_PLAY_List) {
-    return state.set('playList', action.playList)
-  }
-  if (action.type === ActionTypes.SET_CURRENTINDEX) {
-    return state.set('currentIndex', action.currentIndex)
-  }
-  return state
 }
+
+const reducer = combineReducers({
+  common: commonReducers,
+  discover: discoverReducer
+})
 
 export default reducer
