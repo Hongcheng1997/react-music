@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { fromJS } from 'immutable'
 import { formatTime, repairNumber } from '@/common/helper/utils'
 import {
   getPlayStatusAction,
@@ -78,11 +79,11 @@ const mapDispatchToProps = dispatch => ({
   setPlayStatus: status => {
     dispatch(getPlayStatusAction(status))
   },
-  setPlayList: status => {
-    dispatch(getPlayListAction(status))
+  setPlayList: list => {
+    dispatch(getPlayListAction(fromJS(list)))
   },
-  setCurrentIndex: status => {
-    dispatch(getCurrentIndexAction(status))
+  setCurrentIndex: index => {
+    dispatch(getCurrentIndexAction(index))
   }
 })
 

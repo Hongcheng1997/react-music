@@ -21,6 +21,7 @@ class Play extends Component {
     const { playList, currentIndex } = this.props
     const { currentTime, volume, url } = this.state
     const currentMusic = playList[currentIndex] || {}
+    this.getMusic(currentMusic.id) // 保证歌曲 index 切换后，能获取歌曲，后期优化
     return (
       <div className={style.play}>
         <div className={style.cutSong}>
@@ -54,9 +55,6 @@ class Play extends Component {
   }
 
   componentDidMount() {
-    const { playList, currentIndex } = this.props
-    const currentMusic = playList[currentIndex] || {}
-    this.getMusic(currentMusic.id)
     this._audio = ReactDOM.findDOMNode(this.refs._audio)
     this.setVolume()
     this.bindEvent()
