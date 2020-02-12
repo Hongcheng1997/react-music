@@ -1,6 +1,6 @@
 import React from 'react'
-import style from './music-tab.module.scss'
 import { connect } from 'react-redux'
+import style from './music-tab.module.scss'
 
 class MusicTab extends React.Component {
   render() {

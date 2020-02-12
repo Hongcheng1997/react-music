@@ -1,8 +1,8 @@
 import React from 'react'
 import { Carousel } from 'element-react'
-import RecommendSongs from '@/components/recommend-songs/recommend-songs'
+import RecommendSongs from './components/recommend-songs/recommend-songs'
 import axios from '_axios'
-import './discover.scss'
+import style from './discover.module.scss'
 
 class Discover extends React.Component {
   constructor() {
@@ -22,8 +22,8 @@ class Discover extends React.Component {
   render() {
     const { imgList, songSheet } = this.state
     return (
-      <div className="discover">
-        <div className="carousel">
+      <div className={style.discover}>
+        <div className={style.carousel}>
           <Carousel interval="4000" type="card" height="200px">
             {imgList.map((item, index) => {
               return (

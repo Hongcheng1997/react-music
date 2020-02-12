@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import style from './progress.module.scss'
 import { formatTime } from '@/common/helper/utils'
+import style from './progress.module.scss'
 
 class Progress extends React.Component {
   constructor(props) {

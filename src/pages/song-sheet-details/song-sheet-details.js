@@ -1,7 +1,7 @@
 import React from 'react'
-import style from './song-sheet-details.module.scss'
 import axios from '_axios'
-import SongsTable from '@/components/songs-table/songs-table'
+import SongsTable from './components/songs-table/songs-table'
+import style from './song-sheet-details.module.scss'
 
 class SongSheetDetails extends React.Component {
   constructor() {
