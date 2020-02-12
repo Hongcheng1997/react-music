@@ -1,30 +1,24 @@
 import React from 'react'
-import axios from '_axios'
+import { connect } from 'react-redux'
+import { actionCreators } from './store'
 import SongsTable from './components/songs-table/songs-table'
 import style from './song-sheet-details.module.scss'
 
 class SongSheetDetails extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      playlist: {}
-    }
-  }
-
   render() {
-    const { playlist } = this.state
+    const { playList } = this.props
     return (
       <div className={style.sheetDetails}>
         <header className={style.header}>
           <div className={style.head}>
-            <img src={playlist.coverImgUrl} alt=""></img>
+            <img src={playList.coverImgUrl} alt=""></img>
           </div>
           <div className={style.headerContent}>
-            <h1>{playlist.name}</h1>
+            <h1>{playList.name}</h1>
             <p className={style.tags}>
-              标签：<span>{playlist.tags && playlist.tags.join(' / ')}</span>
+              标签：<span>{playList.tags && playList.tags.join(' / ')}</span>
             </p>
-            <p className={style.description}>简介：{playlist.description}</p>
+            <p className={style.description}>简介：{playList.description}</p>
           </div>
         </header>
         <div className={`${style.song}`}>
@@ -35,30 +29,28 @@ class SongSheetDetails extends React.Component {
           <span className={style.album}>专辑</span>
           <span className={style.timer}>时长</span>
         </div>
-        <SongsTable tracks={playlist.tracks} />
+        <SongsTable tracks={playList.tracks} />
       </div>
     )
   }
 
   componentDidMount() {
-    this.getData()
-  }
-
-  getData() {
-    axios('/playlist/detail', {
-      id: this.props.match.params.id
-    }).then(res => {
-      if (res.code === 200) {
-        res.playlist.tracks = res.playlist.tracks.map(item => {
-          item.dt = parseInt(item.dt.toFixed().substr(0, 3))
-          return item
-        })
-        this.setState({
-          playlist: res.playlist
-        })
-      }
-    })
+    this.props.getData(this.props.match.params.id)
   }
 }
 
-export default SongSheetDetails
+const mapStateToProps = (state) => {
+  return {
+    playList: state.getIn(['songSheetDetails', 'playList']).toJS(),
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getData(id) {
+      dispatch(actionCreators.getData(id))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SongSheetDetails)

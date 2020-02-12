@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux-immutable'
 import { fromJS } from 'immutable'
-import { reducer as discoverReducer } from '../pages/discover/store'
 import * as ActionTypes from './actionTypes'
+import { reducer as discoverReducer } from '../pages/discover/store'
+import { reducer as songSheetDetailsReducer } from '../pages/song-sheet-details/store'
 
 const defaultState = fromJS({
   playStatus: true,
@@ -41,7 +42,8 @@ function commonReducers(state = defaultState, action) {
 
 const reducer = combineReducers({
   common: commonReducers,
-  discover: discoverReducer
+  discover: discoverReducer,
+  songSheetDetails: songSheetDetailsReducer
 })
 
 export default reducer

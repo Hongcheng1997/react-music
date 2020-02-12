@@ -6,7 +6,7 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f //开启redux调试
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 )
 
