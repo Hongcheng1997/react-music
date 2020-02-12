@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import style from './music-tab.module.scss'
 
-class MusicTab extends React.Component {
+class MusicTab extends Component {
   render() {
     const { playList, currentIndex } = this.props
     const currentMusic = playList[currentIndex] || {}
@@ -20,10 +20,12 @@ class MusicTab extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  playList: state.playList,
-  currentIndex: state.currentIndex
-})
+const mapStateToProps = state => {
+  return {
+    playList: state.get('playList').toJS(),
+    currentIndex: state.get('currentIndex')
+  }
+}
 
 export default connect(
   mapStateToProps

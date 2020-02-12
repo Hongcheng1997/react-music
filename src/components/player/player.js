@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import axios from '_axios'
 import { connect } from 'react-redux'
-import { setPlayStatus, setCurrentIndex } from '../../store/actions'
+import { getPlayStatusAction, getCurrentIndexAction } from '../../store/actionCreators'
 import Progress from '../progress/progress'
 import style from './player.module.scss'
 
@@ -21,7 +21,6 @@ class Play extends Component {
     const { playList, currentIndex } = this.props
     const { currentTime, volume, url } = this.state
     const currentMusic = playList[currentIndex] || {}
-    this.getMusic(currentMusic.id)
     return (
       <div className={style.play}>
         <div className={style.cutSong}>
@@ -55,6 +54,9 @@ class Play extends Component {
   }
 
   componentDidMount() {
+    const { playList, currentIndex } = this.props
+    const currentMusic = playList[currentIndex] || {}
+    this.getMusic(currentMusic.id)
     this._audio = ReactDOM.findDOMNode(this.refs._audio)
     this.setVolume()
     this.bindEvent()
@@ -76,11 +78,11 @@ class Play extends Component {
 
   bindEvent() {
     this._audio.addEventListener('canplay', this._audio.play)
-    this._audio.addEventListener('ended', this.next)
-    this._audio.addEventListener('timeupdate', this.timeupdate)
+    this._audio.addEventListener('ended', this.next.bind(this))
+    this._audio.addEventListener('timeupdate', this.timeupdate.bind(this))
   }
 
-  next = () => {
+  next() {
     if (this.props.currentIndex === this.props.playList.length - 1) {
       this.props.setCurrentIndex(0)
       return
@@ -105,7 +107,7 @@ class Play extends Component {
     }
   }
 
-  timeupdate = () => {
+  timeupdate() {
     this.setState({
       currentTime: this._audio.currentTime
     })
@@ -130,18 +132,20 @@ class Play extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  playStatus: state.playStatus,
-  playList: state.playList,
-  currentIndex: state.currentIndex
-})
+const mapStateToProps = state => {
+  return {
+    playStatus: state.get('playStatus'),
+    playList: state.get('playList').toJS(),
+    currentIndex: state.get('currentIndex')
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   setPlayStatus: status => {
-    dispatch(setPlayStatus(status))
+    dispatch(getPlayStatusAction(status))
   },
   setCurrentIndex: status => {
-    dispatch(setCurrentIndex(status))
+    dispatch(getCurrentIndexAction(status))
   }
 })
 

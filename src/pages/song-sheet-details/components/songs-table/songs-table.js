@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { formatTime, repairNumber } from '@/common/helper/utils'
 import {
-  setPlayStatus,
-  setPlayList,
-  setCurrentIndex
-} from '../../../../store/actions'
+  getPlayStatusAction,
+  getPlayListAction,
+  getCurrentIndexAction
+} from '../../../../store/actionCreators'
 import style from './songs-table.module.scss'
 
 class SongsTable extends React.Component {
@@ -70,19 +70,19 @@ class SongsTable extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  playList: state.playList,
-  currentIndex: state.currentIndex
+  playList: state.get('playList').toJS(),
+  currentIndex: state.get('currentIndex')
 })
 
 const mapDispatchToProps = dispatch => ({
   setPlayStatus: status => {
-    dispatch(setPlayStatus(status))
+    dispatch(getPlayStatusAction(status))
   },
   setPlayList: status => {
-    dispatch(setPlayList(status))
+    dispatch(getPlayListAction(status))
   },
   setCurrentIndex: status => {
-    dispatch(setCurrentIndex(status))
+    dispatch(getCurrentIndexAction(status))
   }
 })
 
