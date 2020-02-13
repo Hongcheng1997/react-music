@@ -24,17 +24,6 @@ class Play extends Component {
     this.getMusic(currentMusic.id) // 保证歌曲 index 切换后，能获取歌曲，后期优化
     return (
       <div className={style.play}>
-        <div className={style.cutSong}>
-          <div className={style.left} onClick={() => this.prev()}>
-            <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
-          </div>
-          <div className={style.center} onClick={() => this.toggleStatus()}>
-            <i className={`iconfont ${this.iconStatus()}`}></i>
-          </div>
-          <div className={style.right} onClick={() => this.next()}>
-            <i className="iconfont icon-bofangqi-xiayiji"></i>
-          </div>
-        </div>
         <div className={style.progressWrap}>
           <Progress
             proportion={currentTime / currentMusic.dt}
@@ -43,13 +32,26 @@ class Play extends Component {
             showTimer="true"
             setPoint={this.setMusicTime} />
         </div>
-        <div className={style.voice}>
-          <i className="iconfont icon-soundsize"></i>
-          <div className={style.volumeWrap}>
-            <Progress proportion={volume} setPoint={this.setVolume} />
+        <div className={style.operation}>
+          <div className={style.cutSong}>
+            <div className={style.left} onClick={() => this.prev()}>
+              <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
+            </div>
+            <div className={style.center} onClick={() => this.toggleStatus()}>
+              <i className={`iconfont ${this.iconStatus()}`}></i>
+            </div>
+            <div className={style.right} onClick={() => this.next()}>
+              <i className="iconfont icon-bofangqi-xiayiji"></i>
+            </div>
           </div>
+          <div className={style.voice}>
+            <i className="iconfont icon-soundsize"></i>
+            <div className={style.volumeWrap}>
+              <Progress proportion={volume} setPoint={this.setVolume} />
+            </div>
+          </div>
+          <audio ref="_audio" src={url}></audio>
         </div>
-        <audio ref="_audio" src={url}></audio>
       </div>
     )
   }

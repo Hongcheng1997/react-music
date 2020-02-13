@@ -25,9 +25,7 @@ class Progress extends React.Component {
           onMouseUp={(e) => this.onMouseUp(e)}
         >
           <div className={style.inner} ref="_inner" style={{ width: proportion * 100 + '%' }}>
-            <span ref="_point" className={style.point}>
-              <span className={style.pointInner}></span>
-            </span>
+            <span ref="_point" className={style.point}></span>
           </div>
         </div>
         {showTimer && <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(totalTime)}`}</span>}

@@ -2,18 +2,14 @@
 @import '../../common/scss/color.scss';
 
 .sideInner {
-  background-color: $gray-background;
-  height: calc(100% - #{$music-tab-height});
+  width: 100%;
+  display: flex;
   .item {
     height: 50px;
     line-height: 50px;
     cursor: pointer;
     display: flex;
-    padding: 0 15px;
-    i {
-      font-size: 16px;
-      margin-right: 10px;
-    }
+    margin-right: 20px;
     a:link,
     a:visited,
     a:hover,
@@ -27,7 +23,6 @@
     }
   }
   .active {
-    background-color: $gray-light;
-    border-left: 2px solid $theme-highlight;
+    border-bottom: 2px solid $theme-highlight;
   }
 }

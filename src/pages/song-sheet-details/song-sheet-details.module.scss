@@ -2,8 +2,13 @@
 @import '../../common/scss/size.scss';
 
 .sheetDetails {
-  height: 100%;
   overflow: auto;
+  position: fixed;
+  top: $header-height;
+  bottom: $min-play-height;
+  left: 0;
+  right: 0;
+  background-color: #fff;
   .header {
     padding: 40px;
     display: flex;

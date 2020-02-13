@@ -1,56 +1,61 @@
-@import '../../common/scss/color.scss';
-@import '../../common/scss/size.scss';
-
+@import "../../common/scss/color.scss";
+@import "../../common/scss/size.scss";
 .play {
   width: 100%;
   height: $min-play-height;
-  background-color: $gray-background;
   border-top: 1px solid $gray-light;
-  display: flex;
-  .cutSong {
+  background-color: $gray-background;
+  overflow: hidden;
+  .operation {
+    width: 100%;
     display: flex;
-    align-items: center;
-    color: white;
-    margin-left: 60px;
-    .left,
-    .right {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      border-radius: 50%;
-      text-align: center;
-      background-color: $theme-highlight;
-      i {
-        font-size: 12px;
+    .cutSong {
+      display: flex;
+      align-items: center;
+      color: white;
+      margin-left: 60px;
+      .left,
+      .right {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: $theme-highlight;
+        i {
+          font-size: 12px;
+        }
+      }
+      .center {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: $theme-highlight;
+        margin: 0 25px;
       }
     }
-    .center {
-      width: 35px;
-      height: 35px;
-      line-height: 35px;
-      text-align: center;
-      border-radius: 50%;
-      background-color: $theme-highlight;
-      margin: 0 25px;
+
+    .voice {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      i {
+        font-size: $fontsize-large-xxx;
+        margin-right: 10px;
+      }
+      .volumeWrap {
+        width: 130px;
+        height: 5px;
+      }
     }
   }
+
   .progressWrap {
     width: 60%;
     display: flex;
     align-items: center;
     margin-left: 20px;
-  }
-  .voice {
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-    i {
-      font-size: $fontsize-large-xxx;
-      margin-right: 10px;
-    }
-    .volumeWrap {
-      width: 130px;
-      height: 5px;
-    }
   }
 }

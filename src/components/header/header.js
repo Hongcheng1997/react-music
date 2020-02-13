@@ -5,7 +5,6 @@ class Header extends React.Component {
   render() {
     return (
       <header className={style.header}>
-        <div className={style.title}>React-Music</div>
         <div className={style.back} onClick={this.back}>
           <i className="iconfont icon-back"></i>
         </div>

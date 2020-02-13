@@ -1,14 +1,16 @@
-@import './common/scss/size.scss';
+@import "./common/scss/size.scss";
 
-.content {
-  display: flex;
+.container {
+  padding: 0 50px;
   height: calc(100vh - #{$header-height} - #{$min-play-height} - 1px);
-  .sideBarWrap {
-    flex-basis: 200px;
-    height: 100%;
+  overflow: auto;
+  .title {
+    font-size: $fontsize-large-xxxx;
+    font-weight: bolder;
+    padding: 20px 0;
   }
-  .main {
-    flex: 1;
+  .barWrap {
+    margin-bottom: 20px;
   }
 }
 
