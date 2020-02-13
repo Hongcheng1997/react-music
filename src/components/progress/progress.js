@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { formatTime } from '@/common/helper/utils'
 import style from './progress.module.scss'
 
 class Progress extends React.Component {
@@ -9,26 +8,25 @@ class Progress extends React.Component {
     this.state = {
       musicTime: 0,
       timer: null,
-      padding: false
+      padding: false,
+      showPoint: false
     }
   }
 
   render() {
-    const { currentTime, proportion, totalTime, showTimer } = this.props
+    const { proportion } = this.props
+    // const { showPoint } = this.state
     return (
       <div className={style.progress}>
         <div
           className={style.bar}
           ref="_bar"
           onMouseDown={(e) => this.onMouseDown(e)}
-          onMouseMove={(e) => this.onMouseMove(e)}
-          onMouseUp={(e) => this.onMouseUp(e)}
         >
           <div className={style.inner} ref="_inner" style={{ width: proportion * 100 + '%' }}>
             <span ref="_point" className={style.point}></span>
           </div>
         </div>
-        {showTimer && <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(totalTime)}`}</span>}
       </div>
     )
   }
@@ -37,6 +35,21 @@ class Progress extends React.Component {
     this.barLeft = ReactDOM.findDOMNode(this.refs._bar).offsetLeft
     this.barWidth = ReactDOM.findDOMNode(this.refs._bar).offsetWidth
     this.pointWidthHalf = ReactDOM.findDOMNode(this.refs._point).clientWidth / 2
+    this.bindEvents()
+  }
+
+  componentWillUnmount() {
+    this.unbindEvents()
+  }
+
+  bindEvents() {
+    document.addEventListener('mousemove', this.onMouseMove.bind(this))
+    document.addEventListener('mouseup', this.onMouseUp.bind(this))
+  }
+
+  unbindEvents() {
+    document.removeEventListener('mousemove', this.onMouseMove.bind(this))
+    document.removeEventListener('mouseup', this.onMouseUp.bind(this))
   }
 
   refreshTime() {
@@ -68,11 +81,13 @@ class Progress extends React.Component {
   }
 
   onMouseUp(e) {
-    const percent = this.setPoint(e)
-    this.props.setPoint(percent)
-    this.setState({
-      padding: false
-    })
+    if (this.state.padding) {
+      const percent = this.setPoint(e)
+      this.props.setPoint(percent)
+      this.setState({
+        padding: false
+      })
+    }
   }
 
   setPoint(e) {

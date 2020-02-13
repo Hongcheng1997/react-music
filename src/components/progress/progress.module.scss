@@ -11,12 +11,12 @@
   }
   .bar {
     flex: 1;
-    height: 5px;
+    height: 3px;
     border-radius: 5px;
     background-color: $gray-light;
     .inner {
       width: 0;
-      height: 5px;
+      height: 100%;
       border-radius: 5px;
       background-color: $theme-highlight;
       position: relative;

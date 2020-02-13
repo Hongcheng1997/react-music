@@ -4,6 +4,8 @@ import axios from '_axios'
 import { connect } from 'react-redux'
 import { getPlayStatusAction, getCurrentIndexAction } from '../../store/actionCreators'
 import Progress from '../progress/progress'
+import MusicTab from '../music-tab/music-tab'
+import { formatTime } from '@/common/helper/utils'
 import style from './player.module.scss'
 
 class Play extends Component {
@@ -13,13 +15,19 @@ class Play extends Component {
       url: '',
       musicId: 0,
       currentTime: 0,
-      volume: 0
+      volume: 0,
+      showVolum: false
     }
+    this.volumeTimer = null
+    this.handleSoundEnter = this.handleSoundEnter.bind(this)
+    this.handleSoundLeave = this.handleSoundLeave.bind(this)
+    this.handleIconEnter = this.handleIconEnter.bind(this)
+    this.handleIconLeave = this.handleIconLeave.bind(this)
   }
 
   render() {
     const { playList, currentIndex } = this.props
-    const { currentTime, volume, url } = this.state
+    const { currentTime, url, volume, showVolum } = this.state
     const currentMusic = playList[currentIndex] || {}
     this.getMusic(currentMusic.id) // 保证歌曲 index 切换后，能获取歌曲，后期优化
     return (
@@ -27,28 +35,40 @@ class Play extends Component {
         <div className={style.progressWrap}>
           <Progress
             proportion={currentTime / currentMusic.dt}
-            currentTime={currentTime}
-            totalTime={currentMusic.dt}
-            showTimer="true"
             setPoint={this.setMusicTime} />
         </div>
         <div className={style.operation}>
+          <div className={style.tabWrap}>
+            <MusicTab></MusicTab>
+          </div>
           <div className={style.cutSong}>
-            <div className={style.left} onClick={() => this.prev()}>
-              <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
-            </div>
+            <i className="iconfont icon-xunhuan"></i>
+            <i style={{ margin: '0 20px' }} className="iconfont icon-shangyishou" onClick={() => this.prev()}></i>
             <div className={style.center} onClick={() => this.toggleStatus()}>
               <i className={`iconfont ${this.iconStatus()}`}></i>
             </div>
-            <div className={style.right} onClick={() => this.next()}>
-              <i className="iconfont icon-bofangqi-xiayiji"></i>
+            <i style={{ margin: '0 20px' }} className="iconfont icon-xiayishou" onClick={() => this.next()}></i>
+            <div className={style.wrapToPoint}>
+              <i
+                className="iconfont icon-soundsize"
+                onMouseEnter={this.handleIconEnter}
+                onMouseLeave={this.handleIconLeave}
+              ></i>
+              {
+                showVolum &&
+                <div
+                  className={style.volumeWrap}
+                  onMouseEnter={this.handleSoundEnter}
+                  onMouseLeave={this.handleSoundLeave}
+                >
+                  <Progress proportion={volume} setPoint={this.setVolume} />
+                </div>
+              }
             </div>
           </div>
           <div className={style.voice}>
-            <i className="iconfont icon-soundsize"></i>
-            <div className={style.volumeWrap}>
-              <Progress proportion={volume} setPoint={this.setVolume} />
-            </div>
+            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt)}`}</span>
+            <i className="iconfont icon-musiclist"></i>
           </div>
           <audio ref="_audio" src={url}></audio>
         </div>
@@ -107,6 +127,32 @@ class Play extends Component {
     }
   }
 
+  handleSoundEnter() {
+    clearTimeout(this.volumeTimer)
+  }
+
+  handleSoundLeave() {
+    setTimeout(() => {
+      this.setState({
+        showVolum: false
+      })
+    }, 1000)
+  }
+
+  handleIconEnter() {
+    this.setState({
+      showVolum: true
+    })
+  }
+
+  handleIconLeave() {
+    this.volumeTimer = setTimeout(() => {
+      this.setState({
+        showVolum: false
+      })
+    }, 1000)
+  }
+
   timeupdate() {
     this.setState({
       currentTime: this._audio.currentTime
@@ -119,8 +165,8 @@ class Play extends Component {
 
   iconStatus() {
     return this.props.playStatus
-      ? 'icon-bofangqi-zanting'
-      : 'icon-bofangqi-bofang'
+      ? 'icon-iconstop'
+      : 'icon-bofang'
   }
 
   setVolume = percent => {
