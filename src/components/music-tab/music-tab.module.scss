@@ -26,11 +26,13 @@
     .musicName {
       flex: 1;
       font-size: $fontsize-medium;
+      margin: 0;
     }
     .singer {
       flex: 1;
       font-size: $fontsize-small;
       color: $gray-deep;
+      margin: 0;
     }
   }
 }

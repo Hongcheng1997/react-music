@@ -2,9 +2,7 @@ import React, { Component, lazy, Suspense } from 'react'
 import Header from './components/header/header'
 import Player from './components/player/player'
 import Sidebar from './components/sidebar/sidebar'
-// import MusicTab from './components/music-tab/music-tab'
 import './App.scss'
-import 'element-theme-default'
 import {
   BrowserRouter as Router,
   Route,
