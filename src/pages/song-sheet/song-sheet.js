@@ -21,6 +21,7 @@ class SongSheet extends PureComponent {
             hotLabel.slice(0, 30).map(label => {
               return (
                 <li
+                  key={label.name}
                   className={activeLabel === label.name ? style.active : ''}
                   onClick={() => { this.handleFilter(label.name) }}
                 >{label.name}</li>
