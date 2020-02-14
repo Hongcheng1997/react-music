@@ -5,10 +5,6 @@
   width: 100%;
   display: flex;
   align-items: center;
-  .time {
-    color: $gray-medium;
-    margin-left: 15px;
-  }
   .bar {
     flex: 1;
     height: 3px;
@@ -27,7 +23,7 @@
         position: absolute;
         top: 50%;
         right: 0;
-        transform: translateY(-50%);
+        transform: translate(50%, -50%);
         background-color: $theme-highlight;
         cursor: pointer;
       }

@@ -5,7 +5,7 @@ import { reducer as songSheetReducer } from '../pages/song-sheet/store'
 import { reducer as songSheetDetailsReducer } from '../pages/song-sheet-details/store'
 
 const defaultState = fromJS({
-  playStatus: true,
+  playStatus: false,
   playList: [{
     name: "绿洲",
     id: 1400047314,
@@ -32,7 +32,10 @@ function commonReducers(state = defaultState, action) {
     case ActionTypes.SET_PLAY_STATUS:
       return state.set('playStatus', action.playStatus);
     case ActionTypes.SET_PLAY_List:
-      return state.set('playList', action.playList);
+      return state.merge({
+        playList: action.playList,
+        currentIndex: 0
+      });
     case ActionTypes.SET_CURRENTINDEX:
       return state.set('currentIndex', action.currentIndex);
     default:

@@ -8,6 +8,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  .progressWrap {
+    width: 98%;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
   .operation {
     width: 100%;
     display: flex;
@@ -34,22 +41,9 @@
       i {
         font-size: $fontsize-large-xxx;
       }
-      .wrapToPoint {
-        position: relative;
-        .volumeWrap {
-          width: 130px;
-          height: 10px;
-          display: flex;
-          align-items: center;
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translate(100%, -50%);
-        }
-      }
     }
 
-    .voice {
+    .musicListWrap {
       flex: 1;
       display: flex;
       justify-content: flex-end;
@@ -59,12 +53,5 @@
         margin-left: 10px;
       }
     }
-  }
-
-  .progressWrap {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
   }
 }

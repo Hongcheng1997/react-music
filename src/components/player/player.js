@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import axios from '_axios'
 import { connect } from 'react-redux'
 import { getPlayStatusAction, getCurrentIndexAction } from '../../store/actionCreators'
+import axios from '_axios'
 import Progress from '../progress/progress'
 import MusicTab from '../music-tab/music-tab'
+import Volume from '../volume'
 import { formatTime } from '@/common/helper/utils'
 import style from './player.module.scss'
 
@@ -15,91 +16,79 @@ class Play extends Component {
       url: '',
       musicId: 0,
       currentTime: 0,
-      volume: 0,
-      showVolum: false
+      volume: 0
     }
-    this.volumeTimer = null
-    this.handleSoundEnter = this.handleSoundEnter.bind(this)
-    this.handleSoundLeave = this.handleSoundLeave.bind(this)
-    this.handleIconEnter = this.handleIconEnter.bind(this)
-    this.handleIconLeave = this.handleIconLeave.bind(this)
+    const { playList, currentIndex } = this.props
+    this.currentMusic = playList[currentIndex] || {}
+    this.prev = this.prev.bind(this)
+    this.next = this.next.bind(this)
+    this.setVolume = this.setVolume.bind(this)
+    this.setMusicTime = this.setMusicTime.bind(this)
   }
 
   render() {
-    const { playList, currentIndex } = this.props
-    const { currentTime, url, volume, showVolum } = this.state
-    const currentMusic = playList[currentIndex] || {}
-    this.getMusic(currentMusic.id) // 保证歌曲 index 切换后，能获取歌曲，后期优化
+    const { currentTime, url, volume } = this.state
+    const proportion = currentTime / this.currentMusic.dt
     return (
       <div className={style.play}>
         <div className={style.progressWrap}>
-          <Progress
-            proportion={currentTime / currentMusic.dt}
-            setPoint={this.setMusicTime} />
+          <Progress proportion={proportion} updateToProportion={this.setMusicTime} />
         </div>
+
         <div className={style.operation}>
           <div className={style.tabWrap}>
             <MusicTab></MusicTab>
           </div>
+
           <div className={style.cutSong}>
             <i className="iconfont icon-xunhuan"></i>
-            <i style={{ margin: '0 20px' }} className="iconfont icon-shangyishou" onClick={() => this.prev()}></i>
+            <i style={{ margin: '0 20px' }} className="iconfont icon-shangyishou" onClick={this.prev}></i>
             <div className={style.center} onClick={() => this.toggleStatus()}>
               <i className={`iconfont ${this.iconStatus()}`}></i>
             </div>
-            <i style={{ margin: '0 20px' }} className="iconfont icon-xiayishou" onClick={() => this.next()}></i>
-            <div className={style.wrapToPoint}>
-              <i
-                className="iconfont icon-soundsize"
-                onMouseEnter={this.handleIconEnter}
-                onMouseLeave={this.handleIconLeave}
-              ></i>
-              {
-                showVolum &&
-                <div
-                  className={style.volumeWrap}
-                  onMouseEnter={this.handleSoundEnter}
-                  onMouseLeave={this.handleSoundLeave}
-                >
-                  <Progress proportion={volume} setPoint={this.setVolume} />
-                </div>
-              }
-            </div>
+            <i style={{ margin: '0 20px' }} className="iconfont icon-xiayishou" onClick={this.next}></i>
+            <Volume volume={volume} setVolume={this.setVolume}></Volume>
           </div>
-          <div className={style.voice}>
-            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt)}`}</span>
+
+          <div className={style.musicListWrap}>
+            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(this.currentMusic.dt)}`}</span>
             <i className="iconfont icon-musiclist"></i>
           </div>
-          <audio ref="_audio" src={url}></audio>
         </div>
+        <audio ref="_audio" src={url}></audio>
       </div>
     )
   }
 
   componentDidMount() {
+    this.getMusic(this.currentMusic.id)
     this._audio = ReactDOM.findDOMNode(this.refs._audio)
     this.setVolume()
     this.bindEvent()
   }
 
+  componentDidUpdate() {
+    const { playList, currentIndex } = this.props
+    const currentId = playList[currentIndex].id
+    if (this.currentMusic.id !== currentId) {
+      this.getMusic(currentId)
+    }
+  }
+
+  componentWillUnmount() {
+    this.unBindEvent()
+  }
+
   getMusic(id) {
-    if (!id || id === this.state.musicId) return
-    axios('/song/url', {
-      id
-    }).then(res => {
+    axios('/song/url', { id }).then(res => {
       if (res.code === 200) {
         this.setState({
           url: res.data[0].url,
           musicId: id
         })
+        this._audio.play()
       }
     })
-  }
-
-  bindEvent() {
-    this._audio.addEventListener('canplay', this._audio.play)
-    this._audio.addEventListener('ended', this.next.bind(this))
-    this._audio.addEventListener('timeupdate', this.timeupdate.bind(this))
   }
 
   next() {
@@ -127,39 +116,13 @@ class Play extends Component {
     }
   }
 
-  handleSoundEnter() {
-    clearTimeout(this.volumeTimer)
-  }
-
-  handleSoundLeave() {
-    setTimeout(() => {
-      this.setState({
-        showVolum: false
-      })
-    }, 1000)
-  }
-
-  handleIconEnter() {
-    this.setState({
-      showVolum: true
-    })
-  }
-
-  handleIconLeave() {
-    this.volumeTimer = setTimeout(() => {
-      this.setState({
-        showVolum: false
-      })
-    }, 1000)
-  }
-
   timeupdate() {
     this.setState({
       currentTime: this._audio.currentTime
     })
   }
 
-  setMusicTime = (percent) => {
+  setMusicTime(percent) {
     this._audio.currentTime = this.props.playList[this.props.currentIndex].dt * percent
   }
 
@@ -169,13 +132,22 @@ class Play extends Component {
       : 'icon-bofang'
   }
 
-  setVolume = percent => {
-    if (percent !== undefined) this._audio.volume = percent
+  setVolume(percent) {
+    if (percent !== undefined) this._audio.volume = percent.toFixed(1)
     this.setState({
       volume: this._audio.volume
     })
   }
 
+  bindEvent() {
+    this._audio.addEventListener('ended', this.next.bind(this))
+    this._audio.addEventListener('timeupdate', this.timeupdate.bind(this))
+  }
+
+  unBindEvent() {
+    this._audio.removeEventListener('ended', this.next.bind(this))
+    this._audio.removeEventListener('timeupdate', this.timeupdate.bind(this))
+  }
 }
 
 const mapStateToProps = state => {
