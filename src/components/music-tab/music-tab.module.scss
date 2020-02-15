@@ -1,5 +1,5 @@
 .MusicTab {
-  background-color: $gray-background;
+  background-color: var(--music-tab-bgcolor);
   height: 45px;
   box-sizing: border-box;
   display: flex;
@@ -28,7 +28,7 @@
     .singer {
       flex: 1;
       font-size: $fontsize-small;
-      color: $gray-deep;
+      color: var(--music-tab-font-color);
       margin: 0;
     }
   }

@@ -6,7 +6,7 @@
     flex: 1;
     height: 3px;
     border-radius: 5px;
-    background-color: $gray-light;
+    background-color: var(--progress-bar-bgcolor);
     .inner {
       width: 0;
       height: 100%;

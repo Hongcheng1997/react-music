@@ -8,8 +8,8 @@
       height: 30px;
       line-height: 30px;
       text-align: center;
-      background-color: $gray-light;
-      color: $gray-medium;
+      background-color: var(--song-sheet-bgcolor);
+      color: var(--song-sheet-font-color);
       border-radius: 5px;
       margin-bottom: 10px;
       margin-right: 10px;

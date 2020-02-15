@@ -18,7 +18,7 @@
     a:hover,
     a:active {
       flex: 1;
-      color: $gray-medium;
+      color: var(--sideBar-font-color);
       text-decoration: none;
     }
     a:hover {
