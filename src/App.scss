@@ -1,16 +1,21 @@
-@import "./common/scss/size.scss";
-
 .container {
-  padding: 0 50px;
+  display: flex;
+  padding-top: 15px;
   height: calc(100vh - #{$header-height} - #{$min-play-height} - 1px);
-  overflow: auto;
-  .title {
-    font-size: $fontsize-large-xxxx;
-    font-weight: bolder;
-    padding: 20px 0;
+  box-sizing: border-box;
+  background-color: var(--body-bgcolor);
+  .nav {
+    flex-basis: 200px;
   }
-  .barWrap {
-    margin-bottom: 20px;
+  .view {
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    .title {
+      font-size: $fontsize-large-xxxx;
+      font-weight: bolder;
+      padding: 20px 0;
+    }
   }
 }
 

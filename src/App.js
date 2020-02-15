@@ -1,6 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react'
 import Header from './components/header/header'
-import Player from './components/player/player'
+import MiniPlayer from './components/mini-player/mini-player'
 import Sidebar from './components/sidebar/sidebar'
 import './App.scss'
 import {
@@ -22,21 +22,22 @@ class App extends Component {
         <div>
           <Header />
           <div className="container">
-            <div className="title">音乐馆</div>
-            <div className="barWrap">
+            <div className="nav">
               <Sidebar></Sidebar>
             </div>
-            <Suspense fallback={<p className="loading">正在加载中...</p>}>
-              <Switch>
-                <Route path="/song-sheet" component={SongSheet} />
-                <Route path="/song-sheet-details/:id" component={SongSheetDetails} />
-                <Route path="/singer" component={Singer} />
-                <Route path="/ranking-list" component={RankingList} />
-                <Redirect to="/song-sheet" />
-              </Switch>
-            </Suspense>
+            <div className="view">
+              <Suspense fallback={<p className="loading">正在加载中...</p>}>
+                <Switch>
+                  <Route path="/song-sheet" component={SongSheet} />
+                  <Route path="/song-sheet-details/:id" component={SongSheetDetails} />
+                  <Route path="/singer" component={Singer} />
+                  <Route path="/ranking-list" component={RankingList} />
+                  <Redirect to="/song-sheet" />
+                </Switch>
+              </Suspense>
+            </div>
           </div>
-          <Player></Player>
+          <MiniPlayer></MiniPlayer>
         </div>
       </Router>
     )

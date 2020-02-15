@@ -1,19 +1,39 @@
-@import '../../common/scss/color.scss';
-@import '../../common/scss/size.scss';
-
 .header {
   height: $header-height;
   line-height: $header-height;
   display: flex;
-  .back,
-  .next {
-    .iconfont {
-      color: $gray-medium;
-      font-size: $fontsize-large-xx;
-    }
-  }
+  background-color: var(--body-bgcolor);
+  color: var(--header-font-color);
+  font-size: $fontsize-large-xx;
   .back {
     margin-left: 50px;
     margin-right: 20px;
+  }
+}
+
+.color {
+  display: flex;
+  .white {
+    margin-left: 10px;
+    .whiteInner {
+      background-color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid gray;
+      display: inline-block;
+    }
+  }
+  .black {
+    .blackInner {
+      background-color: black;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+  p {
+    text-align: center;
   }
 }

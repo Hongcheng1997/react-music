@@ -22,10 +22,10 @@ class Sidebar extends React.Component {
         {list.map((item, index) => (
           <div
             key={index}
+            onClick={() => this.select(index)}
             className={`${style.item} ${
               activeId === index ? style.active : ''
               }`}
-            onClick={() => this.select(index)}
           >
             <Link to={item.path}>
               {item.name}
