@@ -43,7 +43,7 @@ class MiniPlayer extends Component {
 
         <div className={style.operation}>
           <div className={style.tabWrap}>
-            <MusicTab></MusicTab>
+            <MusicTab handlePlay={this.props.handlePlay}></MusicTab>
           </div>
 
           <div className={style.cutSong}>

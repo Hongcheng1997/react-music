@@ -1,0 +1,52 @@
+.playContainer {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  .playerHeader {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    i {
+      color: white;
+      font-size: $fontsize-large-x;
+    }
+  }
+  .main {
+    display: flex;
+    height: calc(100vh - #{$header-height} - #{$min-play-height});
+    align-items: center;
+    .head {
+      flex-basis: 400px;
+      height: 400px;
+      margin-left: 200px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .LyricWrap {
+      flex: 1;
+      height: 100%;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .songName {
+        font-size: $fontsize-large-xxx;
+      }
+      .singer {
+        color: $gray-light;
+      }
+      .active {
+        color: $theme-highlight;
+      }
+    }
+  }
+}

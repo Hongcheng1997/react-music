@@ -7,8 +7,11 @@ const MusicTab = props => {
   const currentMusic = playList[currentIndex] || {}
   return (
     <div className={style.MusicTab}>
-      <div className={style.musicHead}>
+      <div className={style.musicHead} onClick={props.handlePlay}>
         <img src={currentMusic.al && currentMusic.al.picUrl} alt=''></img>
+        <div className={style.top}>
+          <i className="iconfont icon-jiantou_yemian_xiangshang_o"></i>
+        </div>
       </div>
       <div className={style.musicInfo}>
         <p className={style.musicName}>{currentMusic.name}</p>

@@ -42,3 +42,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-color);
 }
+
+.hidden {
+  display: none;
+}

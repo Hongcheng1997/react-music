@@ -1,6 +1,7 @@
 import React, { Component, lazy, Suspense } from 'react'
 import Header from './components/header/header'
 import MiniPlayer from './components/mini-player/mini-player'
+import Player from './components/player/player'
 import Sidebar from './components/sidebar/sidebar'
 import './App.scss'
 import {
@@ -16,6 +17,16 @@ const SongSheet = lazy(() => import('./pages/song-sheet/song-sheet'))
 const SongSheetDetails = lazy(() => import('./pages/song-sheet-details/song-sheet-details'))
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      showPlay: false,
+      currentTime: 0
+    }
+    this.handlePlay = this.handlePlay.bind(this)
+  }
+
   render() {
     return (
       <Router>
@@ -37,10 +48,21 @@ class App extends Component {
               </Suspense>
             </div>
           </div>
-          <MiniPlayer></MiniPlayer>
+          <MiniPlayer handlePlay={this.handlePlay}></MiniPlayer>
+          <div className={this.state.showPlay ? '' : 'hidden'}>
+            <Player handlePlay={this.handlePlay}></Player>
+          </div>
         </div>
       </Router>
     )
+  }
+
+  handlePlay() {
+    this.setState(preState => {
+      return {
+        showPlay: !preState.showPlay
+      }
+    })
   }
 }
 
