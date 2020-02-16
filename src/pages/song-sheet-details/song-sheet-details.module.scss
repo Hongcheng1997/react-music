@@ -5,10 +5,11 @@
   bottom: $min-play-height;
   left: 0;
   right: 0;
-  background-color: #fff;
+  background-color: var(--song-sheet-details-bgcolor);
   .header {
     padding: 40px;
     display: flex;
+    color: var(--body-color);
     .head {
       width: 200px;
       height: 200px;
@@ -26,12 +27,13 @@
         font-weight: 500;
         font-size: $fontsize-large-xxx;
         margin-bottom: 20px;
+        color: var(--body-color);
       }
       .tags {
         font-size: $fontsize-medium;
         margin-bottom: 20px;
         span {
-          color: $bule;
+          color: var(--song-sheet-details-tag);
         }
       }
       .description {
@@ -46,7 +48,7 @@
     line-height: 30px;
     cursor: default;
     justify-content: space-between;
-    color: $gray-medium;
+    color: var(--body-color);
     font-size: $fontsize-medium;
     border-top: 1px solid $gray-light;
     border-bottom: 1px solid $gray-light;
@@ -69,7 +71,7 @@
     }
     .name {
       flex: 1.5;
-      color: $gray-deep;
+      color: var(--body-color);
       border-right: 1px solid $gray-light;
       padding: 0 10px;
     }

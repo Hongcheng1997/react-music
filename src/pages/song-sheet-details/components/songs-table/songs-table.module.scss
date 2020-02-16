@@ -5,7 +5,7 @@
     line-height: 30px;
     cursor: default;
     justify-content: space-between;
-    color: $gray-medium;
+    color: var(--song-table-color);
     font-size: $fontsize-medium;
     position: relative;
     .sound {
@@ -32,7 +32,6 @@
     }
     .name {
       flex: 1.5;
-      color: $gray-deep;
       padding: 0 10px;
     }
     .album,
@@ -46,9 +45,6 @@
   }
   .song:hover,
   .active {
-    background-color: $gray-light!important;
-  }
-  .song:nth-child(odd) {
-    background-color: #f5f5f7;
+    background-color: var(--song-table-active-bgcolor) !important;
   }
 }

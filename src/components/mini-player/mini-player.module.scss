@@ -69,7 +69,8 @@
     }
   }
 }
-.drawerWrap {
+
+.drawerItem {
   margin-bottom: 25px;
   .name {
     margin-bottom: 0;
@@ -89,6 +90,6 @@
 
 .active {
   p {
-  color: $theme-highlight !important;
+    color: $theme-highlight !important;
   }
 }

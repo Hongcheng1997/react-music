@@ -1,6 +1,6 @@
 export default {
   '--body-bgcolor': '#1D1D1F',
-  '--light-bgcolor': '#1ECEA0',
+  '--body-color': '#FFFFFF',
 
   // scrollbar
   '--scrollbar-color': '#3a3a3a',
@@ -25,5 +25,11 @@ export default {
   '--music-tab-font-color': '#fff',
 
   // progress
-  '--progress-bar-bgcolor': '#505051'
+  '--progress-bar-bgcolor': '#505051',
+
+  // song-sheet-details
+  '--song-sheet-details-bgcolor': '#1D1D1F',
+  '--song-sheet-details-tag': '#777778',
+  '--song-table-color': '#FFFFFF',
+  '--song-table-active-bgcolor': '#232325'
 }

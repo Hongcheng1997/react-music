@@ -72,6 +72,8 @@ class MiniPlayer extends Component {
       <Drawer
         width="300"
         title="播放列表"
+        headerStyle={{ backgroundColor: 'var(--body-bgcolor)', color: 'var(--body-color)' }}
+        drawerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
         placement="right"
         closable={false}
         onClose={this.handleDrawer}
@@ -83,7 +85,7 @@ class MiniPlayer extends Component {
               <div
                 key={item.id}
                 onClick={() => { this.props.setCurrentIndex(index) }}
-                className={`${style.drawerWrap} ${item.id === this.currentMusic.id ? style.active : ''}`}
+                className={`${style.drawerItem} ${item.id === this.currentMusic.id ? style.active : ''}`}
               >
                 <p className={style.name}>{item.name}</p>
                 <p className={style.info}>
