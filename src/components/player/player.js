@@ -56,6 +56,7 @@ class Player extends PureComponent {
 
   componentWillUpdate(nextProps) {
     if (this.props.lyric !== nextProps.lyric) {
+      this.lyricInstance && this.lyricInstance.stop()
       this.lyricInstance = new Lyric(nextProps.lyric, this.handler)
       this.setState(() => ({
         lyricIndex: 0,
