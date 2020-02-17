@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import style from './music-tab.module.scss'
 
 const MusicTab = props => {
-  const { playList, currentIndex } = props
-  const currentMusic = playList[currentIndex] || {}
+  const { currentMusic } = props
   return (
     <div className={style.MusicTab}>
       <div className={style.musicHead} onClick={props.handlePlay}>
@@ -23,8 +22,7 @@ const MusicTab = props => {
 
 const mapStateToProps = state => {
   return {
-    playList: state.getIn(['common', 'playList']).toJS(),
-    currentIndex: state.getIn(['common', 'currentIndex'])
+    currentMusic: state.getIn(['common', 'currentMusic']).toJS()
   }
 }
 

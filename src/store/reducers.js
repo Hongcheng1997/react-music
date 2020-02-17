@@ -6,25 +6,11 @@ import { reducer as songSheetDetailsReducer } from '../pages/song-sheet-details/
 
 const defaultState = fromJS({
   playStatus: false,
-  playList: [{
-    name: "绿洲",
-    id: 1400047314,
-    ar: [{
-      id: 12002248,
-      name: "沈以诚",
-      tns: [],
-      alias: []
-    }],
-    al: {
-      id: 2801259,
-      name: "rice & shine",
-      picUrl: "https://p2.music.126.net/asKHHNuQsKDD39lvGoIqhw==/109951164457857234.jpg?param=34y34",
-      tns: [],
-      pic: 5962651557619306
-    },
-    dt: 243
-  }],
-  currentIndex: 0
+  playList: [],
+  currentIndex: 0,
+  currentMusic: {},
+  lyric: '',
+  musicUrl: ''
 })
 
 function commonReducers(state = defaultState, action) {
@@ -34,10 +20,18 @@ function commonReducers(state = defaultState, action) {
     case ActionTypes.SET_PLAY_List:
       return state.merge({
         playList: action.playList,
-        currentIndex: 0
+        currentIndex: 0,
+        currentMusic: action.playList[0]
       });
     case ActionTypes.SET_CURRENTINDEX:
-      return state.set('currentIndex', action.currentIndex);
+      return state.merge({
+        currentIndex: action.currentIndex,
+        currentMusic: state.getIn(['playList', action.currentIndex])
+      });
+    case ActionTypes.SET_MUSICURL:
+      return state.set('musicUrl', action.url)
+    case ActionTypes.SET_CURRENTLYRIC:
+      return state.set('lyric', action.lyric)
     default:
       return state
   }

@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import { connect } from 'react-redux'
-import axios from '_axios'
 import BScroll from 'better-scroll'
 import Lyric from 'lyric-parser'
 import style from './player.module.scss'
@@ -14,26 +13,24 @@ class Player extends PureComponent {
       lyricIndex: 0
     }
 
-    this.betterScroll = null
-    this.lyric = null
-    this.currentTime = 0
+    this.scrollInstance = null
+    this.lyricInstance = null
     this.handler = this.handler.bind(this)
   }
 
   render() {
-    const { playList, currentIndex } = this.props
-    const currentMusic = playList[currentIndex]
+    const { currentMusic } = this.props
     const { lyric, lyricIndex } = this.state
     return (
-      <div className={style.playContainer} style={{ backgroundImage: `url(${currentMusic.al.picUrl})` }}>
+      <div className={style.playContainer}>
         <div className={style.playerHeader}>
           <i className="iconfont icon-down" onClick={this.props.handlePlay}></i>
         </div>
         <div className={style.main}>
-          <div className={style.head}><img src={currentMusic.al.picUrl} alt=""></img></div>
+          <div className={style.head}><img src={currentMusic.al && currentMusic.al.picUrl} alt=""></img></div>
           <div className={style.LyricWrap}>
             <p className={style.songName}>{currentMusic.name}</p>
-            <p className={style.singer}>歌手：{currentMusic.ar[0].name}</p>
+            <p className={style.singer}>歌手：{currentMusic.ar && currentMusic.ar[0].name}</p>
             <div id="LyricScroll" style={{ height: '50%', overflow: 'hidden' }}>
               <div>
                 {
@@ -52,39 +49,36 @@ class Player extends PureComponent {
             </div>
           </div>
         </div>
-      </div >
+        <div className={style.bg_player} style={{ backgroundImage: `url(${currentMusic.al && currentMusic.al.picUrl})` }}></div>
+      </div>
     )
   }
 
-  componentDidMount() {
-    const { playList, currentIndex } = this.props
-    const currentMusic = playList[currentIndex]
-    axios('/lyric', { id: currentMusic.id }).then(res => {
-      this.lyric = new Lyric(res.lrc.lyric, this.handler)
+  componentWillUpdate(nextProps) {
+    if (this.props.lyric !== nextProps.lyric) {
+      this.lyricInstance = new Lyric(nextProps.lyric, this.handler)
       this.setState(() => ({
-        lyric: this.lyric.lines
+        lyricIndex: 0,
+        lyric: this.lyricInstance.lines
       }), () => {
-        this.betterScroll = new BScroll(document.querySelector('#LyricScroll'))
+        this.scrollInstance = new BScroll(document.querySelector('#LyricScroll'))
+        if (nextProps.playStatus && !this.state.lyricIndex) {
+          this.lyricInstance.play()
+        }
       })
-    })
-  }
+    }
 
-  componentWillUpdate(preState) {
-    if (this.props.playStatus !== preState.playStatus) {
-      if (this.state.lyricIndex) {
-        this.lyric.togglePlay()
-      } else {
-        this.lyric.play()
-      }
+    if ((this.props.playStatus !== nextProps.playStatus) && this.state.lyricIndex) {
+      this.lyricInstance.togglePlay()
     }
   }
 
   handler({ lineNum }) {
     if (!lineNum) return
     if (lineNum > 3) {
-      this.betterScroll.scrollToElement(`#line_${lineNum - 3}`, 200)
+      this.scrollInstance.scrollToElement(`#line_${lineNum - 3}`, 200)
     } else {
-      this.betterScroll.scrollTo(0, 0, 200)
+      this.scrollInstance.scrollTo(0, 0, 200)
     }
     this.setState({
       lyricIndex: lineNum
@@ -95,8 +89,8 @@ class Player extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     playStatus: state.getIn(['common', 'playStatus']),
-    playList: state.getIn(['common', 'playList']).toJS(),
-    currentIndex: state.getIn(['common', 'currentIndex'])
+    currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
+    lyric: state.getIn(['common', 'lyric'])
   }
 }
 
