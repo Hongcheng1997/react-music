@@ -10,7 +10,8 @@ const defaultState = fromJS({
   currentIndex: 0,
   currentMusic: {},
   lyric: '',
-  musicUrl: ''
+  musicUrl: '',
+  showPlayer: false
 })
 
 function commonReducers(state = defaultState, action) {
@@ -32,6 +33,8 @@ function commonReducers(state = defaultState, action) {
       return state.set('musicUrl', action.url)
     case ActionTypes.SET_CURRENTLYRIC:
       return state.set('lyric', action.lyric)
+    case ActionTypes.SET_SHOWPLAYER:
+      return state.set('showPlayer', state.getIn(['currentMusic', 'id']) ? !state.get('showPlayer') : false)
     default:
       return state
   }

@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fromJS } from 'immutable'
-import { formatTime, repairNumber } from '@/common/helper/utils'
+import { formatTime } from '@/common/helper/utils'
 import {
   getPlayStatusAction,
   getPlayListAction,
   getCurrentIndexAction
 } from '../../../../store/actionCreators'
 import style from './songs-table.module.scss'
+import imgUrl from '../../../../assets/wave.gif'
 
 class SongsTable extends React.Component {
   constructor(props) {
@@ -36,16 +37,19 @@ class SongsTable extends React.Component {
               >
                 {
                   currentMusic.id === item.id &&
-                  <span className={style.sound}><i className='iconfont icon-soundsize'></i></span>
+                  <span className={style.sound}>
+                    <img src={imgUrl} alt="" />
+                  </span>
                 }
 
                 <span className={style.number}>
-                  {repairNumber(index + 1)}
+                  {/* {repairNumber(index + 1)} */}
+                  <i className="iconfont icon-aixin"></i>
                 </span>
-                <span className={style.operation}>
+                {/* <span className={style.operation}>
                   <i className="iconfont icon-aixin"></i>
                   <i className="iconfont icon-shangchuan"></i>
-                </span>
+                </span> */}
                 <span className={style.name}>{item.name}</span>
                 <span className={style.singer}>{item.ar[0].name}</span>
                 <span className={style.album}>{item.al.name}</span>

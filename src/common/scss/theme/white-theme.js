@@ -13,7 +13,6 @@ export default {
   '--sideBar-font-color': '$gray-medium',
 
   // song-sheet
-  '--song-sheet-bgcolor': '#E1E1E2',
   '--song-sheet-font-color': '#000000',
 
   // mini-play

@@ -30,14 +30,14 @@ class MiniPlayer extends Component {
     const { musicUrl, playList, currentMusic } = this.props
     const proportion = currentTime / currentMusic.dt
     return (
-      <div className={style.play}>
+      <div className={style.play} id="play">
         <div className={style.progressWrap}>
           <Progress proportion={proportion} updateToProportion={this.setAudioTime} />
         </div>
 
         <div className={style.operation}>
           <div className={style.tabWrap}>
-            {currentMusic.id && <MusicTab handlePlay={this.props.handlePlay}></MusicTab>}
+            <MusicTab handlePlay={this.props.handlePlay}></MusicTab>
           </div>
 
           <div className={style.cutSong}>
@@ -58,8 +58,8 @@ class MiniPlayer extends Component {
 
         <Drawer
           width="300"
-          title="播放列表"
-          headerStyle={{ backgroundColor: 'var(--body-bgcolor)', color: 'var(--body-color)' }}
+          title={<div style={{ color: 'var(--body-color)' }}>播放列表</div>}
+          headerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
           drawerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
           placement="right"
           closable={false}
@@ -103,6 +103,15 @@ class MiniPlayer extends Component {
     if (preProps.musicUrl !== this.props.musicUrl && this.props.playStatus) {
       this._audio.play()
     }
+
+    if (preProps.showPlayer !== this.props.showPlayer) {
+      if (this.props.showPlayer) {
+        document.getElementById("play").style.color = 'white'
+        document.getElementById("play").style.backgroundColor = 'rgba(255,255,255,0)'
+      } else {
+        document.getElementById("play").removeAttribute("style")
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -110,27 +119,33 @@ class MiniPlayer extends Component {
   }
 
   next() {
-    if (this.props.currentIndex === this.props.playList.length - 1) {
-      this.props.setCurrentIndex(0)
-      return
+    if (this.props.playList.length) {
+      if (this.props.currentIndex === this.props.playList.length - 1) {
+        this.props.setCurrentIndex(0)
+        return
+      }
+      this.props.setCurrentIndex(this.props.currentIndex + 1)
     }
-    this.props.setCurrentIndex(this.props.currentIndex + 1)
   }
 
   prev() {
-    if (this.props.currentIndex - 1 <= 0) {
-      this.props.setCurrentIndex(0)
-      return
+    if (this.props.playList.length) {
+      if (this.props.currentIndex - 1 <= 0) {
+        this.props.setCurrentIndex(0)
+        return
+      }
+      this.props.setCurrentIndex(this.props.currentIndex - 1)
     }
-    this.props.setCurrentIndex(this.props.currentIndex - 1)
   }
 
   toggleStatus() {
-    this.props.setPlayStatus(!this.props.playStatus)
-    if (this.props.playStatus) {
-      this._audio.pause()
-    } else {
-      this._audio.play()
+    if (this.props.currentMusic.id) {
+      this.props.setPlayStatus(!this.props.playStatus)
+      if (this.props.playStatus) {
+        this._audio.pause()
+      } else {
+        this._audio.play()
+      }
     }
   }
 
@@ -147,6 +162,7 @@ class MiniPlayer extends Component {
   }
 
   setAudioTime(percent) {
+    if (!this.props.currentMusic.id) return
     this._audio.currentTime = this.props.currentMusic.dt * percent
   }
 
@@ -180,7 +196,8 @@ const mapStateToProps = state => {
     playList: state.getIn(['common', 'playList']).toJS(),
     currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
     currentIndex: state.getIn(['common', 'currentIndex']),
-    musicUrl: state.getIn(['common', 'musicUrl'])
+    musicUrl: state.getIn(['common', 'musicUrl']),
+    showPlayer: state.getIn(['common', 'showPlayer'])
   }
 }
 

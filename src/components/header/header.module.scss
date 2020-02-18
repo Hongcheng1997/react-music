@@ -2,12 +2,24 @@
   height: $header-height;
   line-height: $header-height;
   display: flex;
+  justify-content: space-between;
   background-color: var(--body-bgcolor);
   color: var(--header-font-color);
   font-size: $fontsize-large-xx;
-  .back {
-    margin-left: 50px;
-    margin-right: 20px;
+  padding: 0 15px;
+  .navWrap {
+    display: flex;
+    .back {
+      margin-left: 10px;
+      margin-right: 20px;
+    }
+    i {
+      cursor: pointer;
+    }
+  }
+  #zhuti {
+    font-size: $fontsize-large-x;
+    margin-right: 40px;
   }
 }
 

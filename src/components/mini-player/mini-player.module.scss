@@ -3,7 +3,6 @@
   height: $min-play-height;
   background-color: var(--mini-play-bgcolor);
   color: var(--mini-play-font-color);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -15,13 +14,12 @@
     width: 98%;
     display: flex;
     align-items: center;
-    margin-top: 10px;
   }
   .operation {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 50px 10px 50px;
+    padding: 0 20px 10px 20px;
     box-sizing: border-box;
     .tabWrap {
       flex: 1;
@@ -78,7 +76,7 @@
   .name {
     margin-bottom: 0;
     font-size: 16px;
-    font-weight: 600;
+    color: var(--mini-play-font-color);
   }
   .info {
     display: flex;

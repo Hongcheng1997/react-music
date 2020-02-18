@@ -23,8 +23,8 @@ class SongSheetDetails extends React.Component {
         </header>
         <div className={`${style.song}`}>
           <span className={style.number}></span>
-          <span className={style.operation}>操作</span>
-          <span className={style.name}>音乐标题</span>
+          {/* <span className={style.operation}>操作</span> */}
+          <span className={style.name}>歌曲</span>
           <span className={style.singer}>歌手</span>
           <span className={style.album}>专辑</span>
           <span className={style.timer}>时长</span>

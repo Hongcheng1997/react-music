@@ -18,7 +18,7 @@ class SongSheet extends PureComponent {
       <div className={style.songSheet}>
         <ul className={style.labelWrap}>
           {
-            hotLabel.slice(0, 30).map(label => {
+            hotLabel.slice(0, 8).map(label => {
               return (
                 <li
                   key={label.name}

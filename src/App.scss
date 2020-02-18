@@ -1,7 +1,7 @@
 .container {
   display: flex;
   padding-top: 15px;
-  height: calc(100vh - #{$header-height} - #{$min-play-height} - 1px);
+  height: calc(100vh - #{$header-height} - #{$min-play-height});
   box-sizing: border-box;
   background-color: var(--body-bgcolor);
   .nav {
@@ -41,8 +41,4 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-color);
-}
-
-.hidden {
-  display: none;
 }

@@ -7,7 +7,7 @@ const RecommendSongs = props => {
   const { data } = props
   return (
     <div className={style.RecommendSongs}>
-      <p className={style.songTitle}>精选歌单</p>
+      {/* <p className={style.songTitle}>精选歌单</p> */}
       <ul>
         {data.map((item, key) => (
           <Link key={key} to={`/song-sheet-details/${item.id}`}>

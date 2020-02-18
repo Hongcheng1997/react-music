@@ -8,11 +8,13 @@ class Header extends React.Component {
   render() {
     return (
       <header className={style.header}>
-        <div className={style.back} onClick={this.back}>
-          <i className="iconfont icon-back"></i>
-        </div>
-        <div className={style.next} onClick={this.prve}>
-          <i className="iconfont icon-next"></i>
+        <div className={style.navWrap}>
+          <div className={style.back} onClick={this.back}>
+            <i className="iconfont icon-back"></i>
+          </div>
+          <div className={style.next} onClick={this.prve}>
+            <i className="iconfont icon-next"></i>
+          </div>
         </div>
         <Popover content={
           <div className={style.color}>
@@ -26,7 +28,7 @@ class Header extends React.Component {
             </div>
           </div>
         }>
-          <i className="iconfont icon-zhuti"></i>
+          <i className="iconfont icon-zhuti" id={style.zhuti}></i>
         </Popover>
       </header>
     )

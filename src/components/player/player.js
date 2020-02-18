@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from 'react-redux'
+import { getShowPlayerAction } from '../../store/actionCreators'
 import BScroll from 'better-scroll'
 import Lyric from 'lyric-parser'
 import style from './player.module.scss'
@@ -19,12 +20,12 @@ class Player extends PureComponent {
   }
 
   render() {
-    const { currentMusic } = this.props
+    const { currentMusic, showPlayer, setPlayer } = this.props
     const { lyric, lyricIndex } = this.state
     return (
-      <div className={style.playContainer}>
+      <div className={style.playContainer} id={showPlayer ? '' : style.playToHidden}>
         <div className={style.playerHeader}>
-          <i className="iconfont icon-down" onClick={this.props.handlePlay}></i>
+          <i className="iconfont icon-down" onClick={setPlayer}></i>
         </div>
         <div className={style.main}>
           <div className={style.head}><img src={currentMusic.al && currentMusic.al.picUrl} alt=""></img></div>
@@ -91,8 +92,17 @@ const mapStateToProps = (state) => {
   return {
     playStatus: state.getIn(['common', 'playStatus']),
     currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
-    lyric: state.getIn(['common', 'lyric'])
+    lyric: state.getIn(['common', 'lyric']),
+    showPlayer: state.getIn(['common', 'showPlayer'])
   }
 }
 
-export default connect(mapStateToProps, null)(Player)
+const mapDispatchToProps = dispatch => {
+  return {
+    setPlayer() {
+      dispatch(getShowPlayerAction())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

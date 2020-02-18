@@ -20,6 +20,11 @@ export function getPlayListAction(playList) {
 export function getCurrentIndexAction(currentIndex) {
   return { type: ActionTypes.SET_CURRENTINDEX, currentIndex }
 }
+
+export function getShowPlayerAction() {
+  return { type: ActionTypes.SET_SHOWPLAYER }
+}
+
 // id 466122271
 export const getMusicUrl = id => {
   return dispatch => {
