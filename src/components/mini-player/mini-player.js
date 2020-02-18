@@ -27,7 +27,7 @@ class MiniPlayer extends Component {
 
   render() {
     const { currentTime, volume, showDrawer } = this.state
-    const { musicUrl, playList, currentMusic } = this.props
+    const { musicUrl, playList, currentMusic, showPlayer } = this.props
     const proportion = currentTime / currentMusic.dt
     return (
       <div className={style.play} id="play">
@@ -37,7 +37,7 @@ class MiniPlayer extends Component {
 
         <div className={style.operation}>
           <div className={style.tabWrap}>
-            <MusicTab handlePlay={this.props.handlePlay}></MusicTab>
+            {currentMusic.id && !showPlayer && <MusicTab handlePlay={this.props.handlePlay}></MusicTab>}
           </div>
 
           <div className={style.cutSong}>
@@ -108,6 +108,9 @@ class MiniPlayer extends Component {
       if (this.props.showPlayer) {
         document.getElementById("play").style.color = 'white'
         document.getElementById("play").style.backgroundColor = 'rgba(255,255,255,0)'
+        setTimeout(() => {
+          document.getElementById("play").style.zIndex = '1'
+        }, 300)
       } else {
         document.getElementById("play").removeAttribute("style")
       }

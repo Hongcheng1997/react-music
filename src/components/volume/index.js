@@ -74,7 +74,7 @@ class Volume extends PureComponent {
   }
 
   soundIcon() {
-    return this.props.volume ? 'iconfont icon-soundsize' : 'iconfont icon-jingyin'
+    return this.props.volume ? 'iconfont icon-yinlianglabashengyin-xianxing' : 'iconfont icon-jingyin'
   }
 }
 

@@ -34,7 +34,7 @@ function commonReducers(state = defaultState, action) {
     case ActionTypes.SET_CURRENTLYRIC:
       return state.set('lyric', action.lyric)
     case ActionTypes.SET_SHOWPLAYER:
-      return state.set('showPlayer', state.getIn(['currentMusic', 'id']) ? !state.get('showPlayer') : false)
+      return state.set('showPlayer', !state.get('showPlayer'))
     default:
       return state
   }

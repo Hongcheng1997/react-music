@@ -11,6 +11,7 @@ export default {
 
   // sideBar
   '--sideBar-font-color': '#D1D1D1',
+  '--sideBar-bgcolor': '#171718',
 
   // song-sheet
   '--song-sheet-font-color': '#fff',

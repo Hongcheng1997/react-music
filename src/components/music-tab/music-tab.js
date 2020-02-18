@@ -14,7 +14,7 @@ const MusicTab = props => {
         </div>
       </div>
       <div className={style.musicInfo}>
-        <p className={style.musicName}>{currentMusic.name || '暂无音乐'}</p>
+        <p className={style.musicName}>{currentMusic.name}</p>
         <p className={style.singer}>{currentMusic.ar && currentMusic.ar[0].name}</p>
       </div>
     </div>
