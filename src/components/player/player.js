@@ -37,7 +37,7 @@ class Player extends PureComponent {
                 {
                   lyric.map((item, index) => {
                     return (
-                      <p key={item.time}
+                      <p key={index}
                         id={`line_${index}`}
                         className={index === lyricIndex ? style.active : ''}
                       >
@@ -73,6 +73,11 @@ class Player extends PureComponent {
     if ((this.props.playStatus !== nextProps.playStatus) && this.state.lyricIndex) {
       this.lyricInstance.togglePlay()
     }
+
+    if ((this.props.timeToLyric !== nextProps.timeToLyric)) {
+      // console.log(nextProps.timeToLyric)
+      // this.lyricInstance.play(nextProps.timeToLyric)
+    }
   }
 
   handler({ lineNum }) {
@@ -82,6 +87,9 @@ class Player extends PureComponent {
     } else {
       this.scrollInstance.scrollTo(0, 0, 200)
     }
+    // if (lineNum === this.props.lyric.length) {
+    //   console.log(12)
+    // }
     this.setState({
       lyricIndex: lineNum
     })
@@ -93,7 +101,8 @@ const mapStateToProps = (state) => {
     playStatus: state.getIn(['common', 'playStatus']),
     currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
     lyric: state.getIn(['common', 'lyric']),
-    showPlayer: state.getIn(['common', 'showPlayer'])
+    showPlayer: state.getIn(['common', 'showPlayer']),
+    timeToLyric: state.getIn(['common', 'timeToLyric'])
   }
 }
 

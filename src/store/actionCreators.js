@@ -25,6 +25,10 @@ export function getShowPlayerAction() {
   return { type: ActionTypes.SET_SHOWPLAYER }
 }
 
+export function getTimeToLyricAction(time) {
+  return { type: ActionTypes.SET_TIMETOLYRIC, time }
+}
+
 // id 466122271
 export const getMusicUrl = id => {
   return dispatch => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { getPlayStatusAction, getCurrentIndexAction, getMusicUrl, getLyric } from '../../store/actionCreators'
+import { getPlayStatusAction, getCurrentIndexAction, getTimeToLyricAction, getMusicUrl, getLyric } from '../../store/actionCreators'
 import Progress from '../progress/progress'
 import MusicTab from '../music-tab/music-tab'
 import Volume from '../volume'
@@ -9,13 +9,18 @@ import { Drawer } from 'antd';
 import { formatTime } from '@/common/helper/utils'
 import style from './mini-player.module.scss'
 
+const LISTLOOP = 1
+const SINGLELOOP = 2
+const RANDOM = 3
+
 class MiniPlayer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       currentTime: 0,
       volume: 1,
-      showDrawer: false
+      showDrawer: false,
+      playMode: LISTLOOP
     }
     this.prev = this.prev.bind(this)
     this.next = this.next.bind(this)
@@ -23,6 +28,8 @@ class MiniPlayer extends Component {
     this.handleDrawer = this.handleDrawer.bind(this)
     this.toggleStatus = this.toggleStatus.bind(this)
     this.setAudioTime = this.setAudioTime.bind(this)
+    this.playModeIcon = this.playModeIcon.bind(this)
+    this.handleMode = this.handleMode.bind(this)
   }
 
   render() {
@@ -41,7 +48,9 @@ class MiniPlayer extends Component {
           </div>
 
           <div className={style.cutSong}>
-            <i className="iconfont icon-xunhuan"></i>
+            <div>
+              {this.playModeIcon()}
+            </div>
             <i className={`iconfont icon-shangyishou ${style.shangyishou}`} onClick={this.prev}></i>
             <div className={style.center} onClick={this.toggleStatus}>
               <i className={`iconfont ${this.iconStatus()}`}></i>
@@ -84,9 +93,20 @@ class MiniPlayer extends Component {
             })
           }
         </Drawer>
-        <audio ref="_audio" src={musicUrl}></audio>
+        <audio ref="_audio" src={musicUrl} ></audio>
       </div>
     )
+  }
+
+  playModeIcon() {
+    switch (this.state.playMode) {
+      case RANDOM:
+        return <i className="iconfont icon-random" onClick={this.handleMode}></i>
+      case SINGLELOOP:
+        return <i className="iconfont icon-danquxunhuan" onClick={this.handleMode}></i>
+      default:
+        return <i className="iconfont icon-xunhuan" onClick={this.handleMode}></i>
+    }
   }
 
   componentDidMount() {
@@ -166,6 +186,7 @@ class MiniPlayer extends Component {
 
   setAudioTime(percent) {
     if (!this.props.currentMusic.id) return
+    this.props.setTimeToLyric(this.props.currentMusic.dt * percent)
     this._audio.currentTime = this.props.currentMusic.dt * percent
   }
 
@@ -176,6 +197,22 @@ class MiniPlayer extends Component {
     })
   }
 
+  handleMode() {
+    this.setState((preState) => ({
+      playMode: preState.playMode === RANDOM ? LISTLOOP : ++preState.playMode
+    }))
+  }
+
+  ended() {
+    if (this.state.playMode === LISTLOOP) {
+      this.next()
+    }
+    if (this.state.playMode === SINGLELOOP) {
+      // this.setAudioTime(0)
+      // this.props.setCurrentIndex(0)
+    }
+  }
+
   iconStatus() {
     return this.props.playStatus
       ? 'icon-iconstop'
@@ -183,12 +220,12 @@ class MiniPlayer extends Component {
   }
 
   bindEvent() {
-    this._audio.addEventListener('ended', this.next.bind(this))
+    this._audio.addEventListener('ended', this.ended.bind(this))
     this._audio.addEventListener('timeupdate', this.audioTimeUpdate.bind(this))
   }
 
   unBindEvent() {
-    this._audio.removeEventListener('ended', this.next.bind(this))
+    this._audio.removeEventListener('ended', this.ended.bind(this))
     this._audio.removeEventListener('timeupdate', this.audioTimeUpdate.bind(this))
   }
 }
@@ -210,6 +247,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setCurrentIndex: index => {
     dispatch(getCurrentIndexAction(index))
+  },
+  setTimeToLyric: time => {
+    dispatch(getTimeToLyricAction(time))
   },
   getMusicUrl: id => {
     dispatch(getMusicUrl(id))

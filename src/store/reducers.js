@@ -11,7 +11,8 @@ const defaultState = fromJS({
   currentMusic: {},
   lyric: '',
   musicUrl: '',
-  showPlayer: false
+  showPlayer: false,
+  timeToLyric: ''
 })
 
 function commonReducers(state = defaultState, action) {
@@ -35,6 +36,8 @@ function commonReducers(state = defaultState, action) {
       return state.set('lyric', action.lyric)
     case ActionTypes.SET_SHOWPLAYER:
       return state.set('showPlayer', !state.get('showPlayer'))
+    case ActionTypes.SET_TIMETOLYRIC:
+      return state.set('timeToLyric', action.time)
     default:
       return state
   }
