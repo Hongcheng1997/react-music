@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { connect } from 'react-redux'
 import { getShowPlayerAction } from '../../store/actionCreators'
 import BScroll from 'better-scroll'
-import Lyric from 'lyric-parser'
+import Lyric from '../../common/helper/parse-lyric'
 import style from './player.module.scss'
 
 class Player extends PureComponent {
@@ -75,8 +75,7 @@ class Player extends PureComponent {
     }
 
     if ((this.props.timeToLyric !== nextProps.timeToLyric)) {
-      // console.log(nextProps.timeToLyric)
-      // this.lyricInstance.play(nextProps.timeToLyric)
+      this.lyricInstance.seek(nextProps.timeToLyric * 1000)
     }
   }
 
@@ -87,9 +86,6 @@ class Player extends PureComponent {
     } else {
       this.scrollInstance.scrollTo(0, 0, 200)
     }
-    // if (lineNum === this.props.lyric.length) {
-    //   console.log(12)
-    // }
     this.setState({
       lyricIndex: lineNum
     })
