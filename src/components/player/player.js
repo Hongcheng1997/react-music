@@ -82,9 +82,9 @@ class Player extends PureComponent {
   handler({ lineNum }) {
     if (!lineNum) return
     if (lineNum > 3) {
-      this.scrollInstance.scrollToElement(`#line_${lineNum - 3}`, 200)
+      this.scrollInstance.scrollToElement(`#line_${lineNum - 3}`, 1000)
     } else {
-      this.scrollInstance.scrollTo(0, 0, 200)
+      this.scrollInstance.scrollTo(0, 0, 1000)
     }
     this.setState({
       lyricIndex: lineNum

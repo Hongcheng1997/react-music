@@ -6,7 +6,7 @@ import Progress from '../progress/progress'
 import MusicTab from '../music-tab/music-tab'
 import Volume from '../volume'
 import { Drawer } from 'antd';
-import { formatTime } from '@/common/helper/utils'
+import { formatTime, getRandomInt } from '@/common/helper/utils'
 import style from './mini-player.module.scss'
 
 const LISTLOOP = 1
@@ -35,7 +35,7 @@ class MiniPlayer extends Component {
   render() {
     const { currentTime, volume, showDrawer } = this.state
     const { musicUrl, playList, currentMusic, showPlayer } = this.props
-    const proportion = currentTime / currentMusic.dt
+    const proportion = currentTime / (currentMusic.dt / 1000)
     return (
       <div className={style.play} id="play">
         <div className={style.progressWrap}>
@@ -60,7 +60,7 @@ class MiniPlayer extends Component {
           </div>
 
           <div className={style.musicListWrap}>
-            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt)}`}</span>
+            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt, true)}`}</span>
             <i className="iconfont icon-musiclist" onClick={this.handleDrawer}></i>
           </div>
         </div>
@@ -86,7 +86,7 @@ class MiniPlayer extends Component {
                   <p className={style.name}>{item.name}</p>
                   <p className={style.info}>
                     <span>{item.ar[0].name}</span>
-                    <span>{formatTime(currentMusic.dt)}</span>
+                    <span>{formatTime(currentMusic.dt, true)}</span>
                   </p>
                 </div>
               )
@@ -186,8 +186,8 @@ class MiniPlayer extends Component {
 
   setAudioTime(percent) {
     if (!this.props.currentMusic.id) return
-    this.props.setTimeToLyric(this.props.currentMusic.dt * percent)
-    this._audio.currentTime = this.props.currentMusic.dt * percent
+    this.props.setTimeToLyric(this.props.currentMusic.dt / 1000 * percent)
+    this._audio.currentTime = this.props.currentMusic.dt / 1000 * percent
   }
 
   setVolume(percent) {
@@ -208,8 +208,12 @@ class MiniPlayer extends Component {
       this.next()
     }
     if (this.state.playMode === SINGLELOOP) {
-      // this.setAudioTime(0)
-      // this.props.setCurrentIndex(0)
+      this._audio.play()
+      this.props.setTimeToLyric(0)
+    }
+    if (this.state.playMode === RANDOM) {
+      const index = getRandomInt(0, this.props.playList.length)
+      this.props.setCurrentIndex(index)
     }
   }
 

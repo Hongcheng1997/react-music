@@ -53,7 +53,7 @@ class SongsTable extends React.Component {
                 <span className={style.name}>{item.name}</span>
                 <span className={style.singer}>{item.ar[0].name}</span>
                 <span className={style.album}>{item.al.name}</span>
-                <span className={style.timer}>{formatTime(item.dt.toFixed().substr(0, 3))}</span>
+                <span className={style.timer}>{formatTime(item.dt, true)}</span>
               </div>
             )
           })}
