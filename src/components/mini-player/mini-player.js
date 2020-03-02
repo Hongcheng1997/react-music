@@ -80,7 +80,7 @@ class MiniPlayer extends Component {
               return (
                 <div
                   key={item.id}
-                  onClick={() => { this.props.setCurrentIndex(index) }}
+                  onDoubleClick={() => { this.props.setCurrentIndex(index) }}
                   className={`${style.drawerItem} ${item.id === currentMusic.id ? style.active : ''}`}
                 >
                   <p className={style.name}>{item.name}</p>

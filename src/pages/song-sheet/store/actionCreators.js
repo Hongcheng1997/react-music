@@ -4,7 +4,7 @@ import axios from '_axios'
 export const getSongSheet = (params) => {
   return dispatch => {
     axios('/top/playlist', params).then(res => {
-      (res.code === 200) && dispatch(getSongSheetAction(res.playlists))
+      (res.code === 200) && dispatch(getSongSheetAction(res))
     })
   }
 }

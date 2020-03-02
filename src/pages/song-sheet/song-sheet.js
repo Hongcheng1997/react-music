@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
+// import { Pagination } from 'antd';
 import RecommendSongs from './components/recommend-songs/recommend-songs'
 import style from './song-sheet.module.scss'
 
@@ -10,10 +11,14 @@ class SongSheet extends PureComponent {
     this.state = {
       activeLabel: '全部歌单'
     }
+    this.page = {
+      limit: 100
+    }
   }
+
   render() {
     const { activeLabel } = this.state
-    const { list, hotLabel } = this.props
+    const { list, hotLabel, pageTotal } = this.props
     return (
       <div className={style.songSheet}>
         <ul className={style.labelWrap}>
@@ -32,12 +37,15 @@ class SongSheet extends PureComponent {
         <div>
           <RecommendSongs data={list} />
         </div>
+        {/* <div className={style.paginationWrap}>
+          <Pagination size="small" total={pageTotal} />
+        </div> */}
       </div>
     )
   }
 
   componentDidMount() {
-    this.props.getSongSheet({ limit: 18 })
+    this.props.getSongSheet(this.page)
     this.props.getHotLabel()
   }
 
@@ -45,14 +53,15 @@ class SongSheet extends PureComponent {
     this.setState({
       activeLabel: cat
     })
-    this.props.getSongSheet({ limit: 18, cat })
+    this.props.getSongSheet({ cat, ...this.page })
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     hotLabel: state.getIn(['songSheet', 'hotLabel']).toJS(),
-    list: state.getIn(['songSheet', 'list']).toJS()
+    list: state.getIn(['songSheet', 'list']).toJS(),
+    pageTotal: state.getIn(['songSheet', 'pageTotal'])
   }
 }
 
