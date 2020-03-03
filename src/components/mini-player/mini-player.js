@@ -86,7 +86,7 @@ class MiniPlayer extends Component {
                   <p className={style.name}>{item.name}</p>
                   <p className={style.info}>
                     <span>{item.ar[0].name}</span>
-                    <span>{formatTime(currentMusic.dt, true)}</span>
+                    <span>{formatTime(item.dt, true)}</span>
                   </p>
                 </div>
               )

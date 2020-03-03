@@ -18,7 +18,7 @@ class SongSheet extends PureComponent {
 
   render() {
     const { activeLabel } = this.state
-    const { list, hotLabel, pageTotal } = this.props
+    const { list, hotLabel } = this.props
     return (
       <div className={style.songSheet}>
         <ul className={style.labelWrap}>
