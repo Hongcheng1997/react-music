@@ -16,6 +16,7 @@ class Header extends React.Component {
             <i className="iconfont icon-next"></i>
           </div>
         </div>
+        <div className={style.title}>GHC-Music</div>
         <Popover content={
           <div className={style.color}>
             <div className={style.black} onClick={() => this.setTheme(0)}>

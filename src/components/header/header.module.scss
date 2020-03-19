@@ -21,6 +21,11 @@
     font-size: $fontsize-large-x;
     margin-right: 40px;
   }
+  .title {
+    font-size: $fontsize-large-xxx;
+    font-weight: 700;
+    color: var(--header-font-color);
+  }
 }
 
 .color {
