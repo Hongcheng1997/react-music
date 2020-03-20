@@ -1,118 +1,113 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import axios from '_axios'
-import style from './player.module.scss'
+import React, { PureComponent } from "react";
 import { connect } from 'react-redux'
-import { setPlayStatus, setCurrentIndex } from '../../store/actions'
-import Progress from '../progress/progress'
+import { getShowPlayerAction } from '../../store/actionCreators'
+import BScroll from 'better-scroll'
+import Lyric from '../../common/helper/parse-lyric'
+import style from './player.module.scss'
 
-class Play extends Component {
+class Player extends PureComponent {
+
   constructor(props) {
     super(props)
     this.state = {
-      url: '',
-      musicId: 0,
-      currentTime: 0
+      lyric: [],
+      lyricIndex: 0
     }
-  }
 
-  componentDidMount() {
-    this._audio = ReactDOM.findDOMNode(this.refs._audio)
-    this.bindEvent()
-  }
-
-  getMusic(id) {
-    if (!id || id === this.state.musicId) return
-    axios('/song/url', {
-      id
-    }).then(res => {
-      if (res.code === 200) {
-        this.setState({
-          url: res.data[0].url,
-          musicId: id
-        })
-      }
-    })
-  }
-
-  bindEvent() {
-    this._audio.addEventListener('canplay', this._audio.play)
-    this._audio.addEventListener('ended', this.next)
-    this._audio.addEventListener('timeupdate', this.timeupdate)
-  }
-
-  next = () => {
-    this.props.setCurrentIndex(this.props.currentIndex + 1)
-  }
-
-  prev() {
-    this.props.setCurrentIndex(this.props.currentIndex - 1)
-  }
-
-  toggleStatus() {
-    this.props.setPlayStatus(!this.props.playStatus)
-    if (this.props.playStatus) {
-      this._audio.pause()
-    } else {
-      this._audio.play()
-    }
-  }
-
-  timeupdate = () => {
-    this.setState({
-      currentTime: this._audio.currentTime
-    })
-  }
-
-  iconStatus() {
-    return this.props.playStatus
-      ? 'icon-bofangqi-zanting'
-      : 'icon-bofangqi-bofang'
+    this.scrollInstance = null
+    this.lyricInstance = null
+    this.handler = this.handler.bind(this)
   }
 
   render() {
-    const { playList, currentIndex } = this.props
-    const { currentTime } = this.state
-    const currentMusic = playList[currentIndex] || {}
-    this.getMusic(currentMusic.id)
+    const { currentMusic, showPlayer, setPlayer } = this.props
+    const { lyric, lyricIndex } = this.state
     return (
-      <div className={style.play}>
-        <div className={style.cutSong}>
-          <div className={style.left} onClick={() => this.prev()}>
-            <i className="iconfont icon-bofangqi-xiayiji-copy"></i>
-          </div>
-          <div className={style.center} onClick={() => this.toggleStatus()}>
-            <i className={`iconfont ${this.iconStatus()}`}></i>
-          </div>
-          <div className={style.right} onClick={() => this.next()}>
-            <i className="iconfont icon-bofangqi-xiayiji"></i>
+      <div className={style.playContainer} id={showPlayer ? '' : style.playToHidden}>
+        <div className={style.playerHeader}>
+          <i className="iconfont icon-down" onClick={setPlayer}></i>
+        </div>
+        <div className={style.main}>
+          <div className={style.head}><img src={currentMusic.al && currentMusic.al.picUrl} alt=""></img></div>
+          <div className={style.LyricWrap}>
+            <p className={style.songName}>{currentMusic.name}</p>
+            <p className={style.singer}>歌手：{currentMusic.ar && currentMusic.ar[0].name}</p>
+            <div id="LyricScroll" style={{ height: '50%', overflow: 'hidden' }}>
+              <div>
+                {
+                  lyric.map((item, index) => {
+                    return (
+                      <p key={index}
+                        id={`line_${index}`}
+                        className={index === lyricIndex ? style.active : ''}
+                      >
+                        {item.txt}
+                      </p>
+                    )
+                  })
+                }
+              </div>
+            </div>
           </div>
         </div>
-        <div className={style.progressWrap}>
-          <Progress currentTime={currentTime} />
-        </div>
-        <audio ref="_audio" src={this.state.url}></audio>
+        <div className={style.bg_player} style={{ backgroundImage: `url(${currentMusic.al && currentMusic.al.picUrl})` }}></div>
       </div>
     )
   }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.lyric !== nextProps.lyric) {
+      this.lyricInstance && this.lyricInstance.stop()
+      this.lyricInstance = new Lyric(nextProps.lyric, this.handler)
+      this.setState(() => ({
+        lyricIndex: 0,
+        lyric: this.lyricInstance.lines
+      }), () => {
+        this.scrollInstance = new BScroll(document.querySelector('#LyricScroll'))
+        if (nextProps.playStatus && !this.state.lyricIndex) {
+          this.lyricInstance.play()
+        }
+      })
+    }
+
+    if ((this.props.playStatus !== nextProps.playStatus) && this.state.lyricIndex) {
+      this.lyricInstance.togglePlay()
+    }
+
+    if ((this.props.timeToLyric !== nextProps.timeToLyric)) {
+      this.lyricInstance.seek(nextProps.timeToLyric * 1000)
+    }
+  }
+
+  handler({ lineNum }) {
+    if (!lineNum) return
+    if (lineNum > 3) {
+      this.scrollInstance.scrollToElement(`#line_${lineNum - 3}`, 1000)
+    } else {
+      this.scrollInstance.scrollTo(0, 0, 1000)
+    }
+    this.setState({
+      lyricIndex: lineNum
+    })
+  }
 }
 
-const mapStateToProps = state => ({
-  playStatus: state.playStatus,
-  playList: state.playList,
-  currentIndex: state.currentIndex
-})
-
-const mapDispatchToProps = dispatch => ({
-  setPlayStatus: status => {
-    dispatch(setPlayStatus(status))
-  },
-  setCurrentIndex: status => {
-    dispatch(setCurrentIndex(status))
+const mapStateToProps = (state) => {
+  return {
+    playStatus: state.getIn(['common', 'playStatus']),
+    currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
+    lyric: state.getIn(['common', 'lyric']),
+    showPlayer: state.getIn(['common', 'showPlayer']),
+    timeToLyric: state.getIn(['common', 'timeToLyric'])
   }
-})
+}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Play)
+const mapDispatchToProps = dispatch => {
+  return {
+    setPlayer() {
+      dispatch(getShowPlayerAction())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

@@ -1,0 +1,53 @@
+.wrap {
+  flex-basis: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.4s;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .playCount {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 0 10px;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    color: white;
+    border-radius: 20px;
+  }
+  &:hover {
+    transform: translateY(-15px);
+    .mask {
+      background-color: rgba($color: #000000, $alpha: 0.6);
+      i {
+        display: inline;
+      }
+    }
+    .playCount {
+      display: none;
+    }
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($color: #000000, $alpha: 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i {
+      color: white;
+      font-size: 50px;
+      display: none;
+      &:hover {
+        color: $theme-highlight;
+      }
+    }
+  }
+}

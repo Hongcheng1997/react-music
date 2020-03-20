@@ -1,0 +1,27 @@
+.songSheet {
+  .labelWrap {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px;
+    li {
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      color: var(--song-sheet-font-color);
+      padding: 0 8px;
+      margin-left: 10px;
+      cursor: pointer;
+      &:hover {
+        color: $theme-highlight;
+      }
+    }
+  }
+  .active {
+    color: $theme-highlight !important;
+  }
+  .paginationWrap {
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

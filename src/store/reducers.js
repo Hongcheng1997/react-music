@@ -1,44 +1,52 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
+import { fromJS } from 'immutable'
 import * as ActionTypes from './actionTypes'
+import { reducer as songSheetReducer } from '../pages/song-sheet/store'
+import { reducer as songSheetDetailsReducer } from '../pages/song-sheet-details/store'
 
-// 初始数据
-const initialState = {
+const defaultState = fromJS({
   playStatus: false,
   playList: [],
-  currentIndex: 0
-}
+  currentIndex: 0,
+  currentMusic: {},
+  lyric: '',
+  musicUrl: '',
+  showPlayer: false,
+  timeToLyric: ''
+})
 
-function playStatus(playStatus = initialState.playStatus, action) {
+function commonReducers(state = defaultState, action) {
   switch (action.type) {
     case ActionTypes.SET_PLAY_STATUS:
-      return action.playStatus
-    default:
-      return playStatus
-  }
-}
-
-function playList(playList = initialState.playList, action) {
-  switch (action.type) {
+      return state.set('playStatus', action.playStatus);
     case ActionTypes.SET_PLAY_List:
-      return action.playList
-    default:
-      return playList
-  }
-}
-
-function currentIndex(currentIndex = initialState.currentIndex, action) {
-  switch (action.type) {
+      return state.merge({
+        playList: action.playList,
+        currentIndex: 0,
+        currentMusic: action.playList[0]
+      });
     case ActionTypes.SET_CURRENTINDEX:
-      return action.currentIndex
+      return state.merge({
+        currentIndex: action.currentIndex,
+        currentMusic: state.getIn(['playList', action.currentIndex])
+      });
+    case ActionTypes.SET_MUSICURL:
+      return state.set('musicUrl', action.url)
+    case ActionTypes.SET_CURRENTLYRIC:
+      return state.set('lyric', action.lyric)
+    case ActionTypes.SET_SHOWPLAYER:
+      return state.set('showPlayer', !state.get('showPlayer'))
+    case ActionTypes.SET_TIMETOLYRIC:
+      return state.set('timeToLyric', action.time)
     default:
-      return currentIndex
+      return state
   }
 }
 
 const reducer = combineReducers({
-  playStatus,
-  playList,
-  currentIndex
+  common: commonReducers,
+  songSheet: songSheetReducer,
+  songSheetDetails: songSheetDetailsReducer
 })
 
 export default reducer

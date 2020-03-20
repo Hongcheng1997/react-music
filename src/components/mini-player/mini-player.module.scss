@@ -1,0 +1,95 @@
+.play {
+  width: 100%;
+  height: $min-play-height;
+  background-color: var(--mini-play-bgcolor);
+  color: var(--mini-play-font-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  .progressWrap {
+    width: 98%;
+    display: flex;
+    align-items: center;
+  }
+  .operation {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 10px 20px;
+    box-sizing: border-box;
+    .tabWrap {
+      flex: 1;
+    }
+    .cutSong {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .center {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: $theme-highlight;
+        color: white;
+        i:hover {
+          color: white;
+        }
+      }
+      i {
+        font-size: $fontsize-large-xx;
+        cursor: pointer;
+        &:hover {
+          color: $theme-highlight;
+        }
+      }
+      .shangyishou,
+      .xiayishou {
+        margin: 0 20px;
+      }
+    }
+
+    .musicListWrap {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      i {
+        font-size: $fontsize-large-xxx;
+        margin-left: 10px;
+        cursor: pointer;
+        &:hover {
+          color: $theme-highlight;
+        }
+      }
+    }
+  }
+}
+
+.drawerItem {
+  margin-bottom: 25px;
+  .name {
+    margin-bottom: 0;
+    font-size: $fontsize-medium;
+    color: var(--mini-play-font-color);
+  }
+  .info {
+    display: flex;
+    font-size: $fontsize-small;
+    color: var(--mini-play-font-color);
+    justify-content: space-between;
+  }
+  &:hover {
+    color: $theme-highlight !important;
+  }
+}
+
+.active {
+  p {
+    color: $theme-highlight !important;
+  }
+}

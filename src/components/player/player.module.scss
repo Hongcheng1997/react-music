@@ -1,43 +1,74 @@
-@import '../../common/scss/color.scss';
-@import '../../common/scss/size.scss';
-
-.play {
+.playContainer {
   width: 100%;
-  height: $min-play-height;
-  background-color: $gray-background;
-  border-top: 1px solid $gray-light;
-  display: flex;
-  .cutSong {
-    display: flex;
-    align-items: center;
-    color: white;
-    margin-left: 60px;
-    .left,
-    .right {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      border-radius: 50%;
-      text-align: center;
-      background-color: $theme-highlight;
-      i {
-        font-size: 12px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform: translateY(0);
+  transition: all 0.3s ease-in;
+  .playerHeader {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    i {
+      color: white;
+      font-size: $fontsize-large-x;
+      cursor: pointer;
+      &:hover {
+        color: $theme-highlight;
       }
     }
-    .center {
-      width: 35px;
-      height: 35px;
-      line-height: 35px;
+  }
+  .main {
+    display: flex;
+    height: calc(100vh - #{$header-height} - #{$min-play-height});
+    align-items: center;
+    .head {
+      flex-basis: 400px;
+      height: 400px;
+      margin-left: 200px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .LyricWrap {
+      flex: 1;
+      height: 100%;
+      color: white;
       text-align: center;
-      border-radius: 50%;
-      background-color: $theme-highlight;
-      margin: 0 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .songName {
+        font-size: $fontsize-large-xxx;
+      }
+      .singer {
+        color: $gray-light;
+      }
+      .active {
+        color: $theme-highlight;
+      }
     }
   }
-  .progressWrap {
-    width: 60%;
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
+  .bg_player {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    filter: blur(65px);
+    opacity: 0.6;
+    transform: translateZ(0);
+    z-index: -1;
   }
+}
+
+#playToHidden {
+  transform: translateY(100%);
 }

@@ -1,12 +1,15 @@
-@import '../../common/scss/color.scss';
-@import '../../common/scss/size.scss';
-
 .sheetDetails {
-  height: 100%;
   overflow: auto;
+  position: fixed;
+  top: $header-height;
+  bottom: $min-play-height;
+  left: 0;
+  right: 0;
+  background-color: var(--song-sheet-details-bgcolor);
   .header {
     padding: 40px;
     display: flex;
+    color: var(--body-color);
     .head {
       width: 200px;
       height: 200px;
@@ -24,12 +27,13 @@
         font-weight: 500;
         font-size: $fontsize-large-xxx;
         margin-bottom: 20px;
+        color: var(--body-color);
       }
       .tags {
         font-size: $fontsize-medium;
         margin-bottom: 20px;
         span {
-          color: $bule;
+          color: var(--song-sheet-details-tag);
         }
       }
       .description {
@@ -41,16 +45,13 @@
   .song {
     display: flex;
     padding: 0 40px;
-    line-height: 30px;
+    line-height: 40px;
     cursor: default;
     justify-content: space-between;
-    color: $gray-medium;
+    color: var(--body-color);
     font-size: $fontsize-medium;
-    border-top: 1px solid $gray-light;
-    border-bottom: 1px solid $gray-light;
     .number {
       flex-basis: 25px;
-      border-right: 1px solid $gray-light;
     }
     .timer {
       flex-basis: 50px;
@@ -59,7 +60,6 @@
     .operation {
       text-align: center;
       flex-basis: 50px;
-      border-right: 1px solid $gray-light;
       padding: 0 10px;
       i:first-child {
         margin-right: 5px;
@@ -67,15 +67,13 @@
     }
     .name {
       flex: 1.5;
-      color: $gray-deep;
-      border-right: 1px solid $gray-light;
+      color: var(--body-color);
       padding: 0 10px;
     }
     .album,
     .singer {
       flex: 1;
       padding: 0 10px;
-      border-right: 1px solid $gray-light;
     }
   }
 }

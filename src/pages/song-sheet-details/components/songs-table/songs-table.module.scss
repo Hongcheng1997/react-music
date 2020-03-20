@@ -1,0 +1,50 @@
+.list {
+  .song {
+    display: flex;
+    padding: 0 40px;
+    line-height: 50px;
+    cursor: default;
+    justify-content: space-between;
+    color: var(--song-table-color);
+    font-size: $fontsize-medium;
+    position: relative;
+    .sound {
+      position: absolute;
+      left: 15px;
+      img {
+        width: 15px;
+      }
+    }
+    .number {
+      flex-basis: 25px;
+    }
+    .timer {
+      flex-basis: 50px;
+      padding: 0 10px;
+    }
+    .operation {
+      text-align: center;
+      flex-basis: 50px;
+      padding: 0 10px;
+      i:first-child {
+        margin-right: 5px;
+      }
+    }
+    .name {
+      flex: 1.5;
+      padding: 0 10px;
+    }
+    .album,
+    .singer {
+      flex: 1;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .song:hover,
+  .active {
+    background-color: var(--song-table-active-bgcolor) !important;
+  }
+}

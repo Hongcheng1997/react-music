@@ -1,47 +1,28 @@
-@import '../../common/scss/size.scss';
-@import '../../common/scss/color.scss';
-
 .progress {
   width: 100%;
   display: flex;
   align-items: center;
-  .time {
-    flex-basis: 80px;
-    text-align: center;
-    color: $gray-medium;
-  }
   .bar {
     flex: 1;
-    height: 5px;
+    height: 3px;
     border-radius: 5px;
-    background-color: $gray-light;
+    background-color: var(--progress-bar-bgcolor);
+    cursor: pointer;
     .inner {
       width: 0;
-      height: 5px;
+      height: 100%;
       border-radius: 5px;
       background-color: $theme-highlight;
       position: relative;
       .point {
-        width: 12px;
-        height: 12px;
-        border: 1px solid $gray-light;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: absolute;
         top: 50%;
         right: 0;
-        transform: translateY(-50%);
-        background-color: white;
-        cursor: pointer;
-        .pointInner {
-          width: 5px;
-          height: 5px;
-          display: inline-block;
-          border-radius: 50%;
-          background-color: $theme-highlight;
-        }
+        transform: translate(50%, -50%);
+        background-color: $theme-highlight;
       }
     }
   }

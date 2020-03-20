@@ -1,19 +1,43 @@
-@import '../../common/scss/size.scss';
-@import '../../common/scss/color.scss';
-
 .MusicTab {
-  background-color: $gray-background;
-  height: $music-tab-height;
-  padding: 10px;
+  background-color: var(--music-tab-bgcolor);
+  height: 45px;
   box-sizing: border-box;
   display: flex;
   .musicHead {
-    width: calc(#{$music-tab-height} - 20px);
-    height: calc(#{$music-tab-height} - 20px);
+    width: 45px;
+    height: 45px;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    &:hover {
+      .top {
+        background-color: rgba(0, 0, 0, 0.5);
+        i {
+          opacity: 1;
+        }
+      }
+    }
+    .top {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        color: white;
+        font-size: $fontsize-large-x;
+        opacity: 0;
+      }
     }
   }
   .musicInfo {
@@ -21,15 +45,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    line-height: calc((#{$music-tab-height} - 20px) / 2);
+    line-height: 20px;
     .musicName {
       flex: 1;
       font-size: $fontsize-medium;
+      margin: 0;
     }
     .singer {
       flex: 1;
       font-size: $fontsize-small;
-      color: $gray-deep;
+      color: var(--music-tab-font-color);
+      margin: 0;
     }
   }
 }

@@ -1,0 +1,33 @@
+.RecommendSongs {
+  padding: 0 20px;
+  .songTitle {
+    font-size: $fontsize-large-xx;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    a {
+      flex-basis: 180px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      margin-bottom: 10px;
+      li {
+        .blockWrap {
+          flex-basis: 180px;
+          height: 180px;
+        }
+        p {
+          color: var(--song-sheet-font-color);
+          margin: 10px 0;
+          line-height: 20px;
+          font-size: $fontsize-medium;
+          &:hover {
+            color: $theme-highlight;
+          }
+        }
+      }
+    }
+  }
+}
