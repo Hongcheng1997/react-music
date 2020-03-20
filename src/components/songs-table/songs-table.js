@@ -29,18 +29,17 @@ class SongsTable extends React.Component {
                 key={item.id}
                 className={`${style.song} ${
                   activeId === index ? style.active : ''
-                  }`}
+                }`}
                 onClick={() => this.select(index)}
                 onDoubleClick={() => this.playMusic(tracks, index)}
               >
-                {
-                  currentMusic.id === item.id &&
-                  <span className={style.sound}><i className='iconfont icon-soundsize'></i></span>
-                }
+                {currentMusic.id === item.id && (
+                  <span className={style.sound}>
+                    <i className="iconfont icon-soundsize"></i>
+                  </span>
+                )}
 
-                <span className={style.number}>
-                  {repairNumber(index + 1)}
-                </span>
+                <span className={style.number}>{repairNumber(index + 1)}</span>
                 <span className={style.operation}>
                   <i className="iconfont icon-aixin"></i>
                   <i className="iconfont icon-shangchuan"></i>
@@ -48,7 +47,9 @@ class SongsTable extends React.Component {
                 <span className={style.name}>{item.name}</span>
                 <span className={style.singer}>{item.ar[0].name}</span>
                 <span className={style.album}>{item.al.name}</span>
-                <span className={style.timer}>{formatTime(item.dt.toFixed().substr(0, 3))}</span>
+                <span className={style.timer}>
+                  {formatTime(item.dt.toFixed().substr(0, 3))}
+                </span>
               </div>
             )
           })}
