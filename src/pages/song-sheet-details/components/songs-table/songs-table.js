@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { fromJS } from 'immutable'
 import { formatTime } from '@/common/helper/utils'
@@ -10,7 +10,7 @@ import {
 import style from './songs-table.module.scss'
 import imgUrl from '../../../../assets/wave.gif'
 
-class SongsTable extends React.Component {
+class SongsTable extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

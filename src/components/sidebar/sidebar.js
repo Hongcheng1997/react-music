@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import style from './sidebar.module.scss'
 
-class Sidebar extends React.Component {
+class Sidebar extends PureComponent {
   constructor() {
     super()
     this.state = {

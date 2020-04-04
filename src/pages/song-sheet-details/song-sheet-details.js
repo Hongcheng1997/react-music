@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
 import SongsTable from './components/songs-table/songs-table'
 import style from './song-sheet-details.module.scss'
 
-class SongSheetDetails extends React.Component {
+class SongSheetDetails extends PureComponent {
   render() {
     const { playList } = this.props
     return (

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Popover } from 'antd'
 import style from './header.module.scss'
 import WhiteTheme from '../../common/scss/theme/white-theme'
 import BlackTheme from '../../common/scss/theme/black-theme'
 
-class Header extends React.Component {
+class Header extends PureComponent {
   render() {
     return (
       <header className={style.header}>

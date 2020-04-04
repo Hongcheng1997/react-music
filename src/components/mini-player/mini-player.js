@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { getPlayStatusAction, getCurrentIndexAction, getTimeToLyricAction, getMusicUrl, getLyric } from '../../store/actionCreators'
@@ -13,7 +13,7 @@ const LISTLOOP = 1
 const SINGLELOOP = 2
 const RANDOM = 3
 
-class MiniPlayer extends Component {
+class MiniPlayer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
