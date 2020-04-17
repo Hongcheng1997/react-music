@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getShowPlayerAction } from '../../store/actionCreators'
 import style from './music-tab.module.scss'
 
-const MusicTab = props => {
+const MusicTab = React.memo(props => {
   const { currentMusic } = props
   return (
     <div className={style.MusicTab}>
@@ -19,7 +19,7 @@ const MusicTab = props => {
       </div>
     </div>
   )
-}
+})
 
 const mapStateToProps = state => {
   return {
