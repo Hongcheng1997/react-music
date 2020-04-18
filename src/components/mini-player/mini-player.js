@@ -61,7 +61,6 @@ const MiniPlayer = React.memo(props => {
   }
 
   function next() {
-    console.log(playList)
     if (playList.length) {
       if (currentIndex === playList.length - 1) {
         setCurrentIndex(0)
