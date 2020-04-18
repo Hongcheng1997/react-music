@@ -33,12 +33,21 @@ export function getTimeToLyricAction(time) {
 export const getMusicUrl = id => {
   return dispatch => {
     axios('/song/url', { id }).then(res => {
-      (res.code === 200) && dispatch(getUrlAction(res.data[0].url))
+      if (res.code === 200) {
+        if (res.data[0].url) {
+          // 派发 action 修改 redux 的 musicUrl
+          dispatch(getUrlAction(res.data[0].url))
+          // 如果有 url，再去获取歌词
+          dispatch(getLyric(id))
+        } else {
+          // 没有音乐链接
+        }
+      }
     })
   }
 }
 
-export const getLyric = id => {
+const getLyric = id => {
   return dispatch => {
     axios('/lyric', { id }).then(res => {
       if (res.code === 200 && !res.nolyric) {

@@ -1,46 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import style from './sidebar.module.scss'
 
-class Sidebar extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      activeId: 0,
-      list: [
-        { path: '/song-sheet', name: '歌单' },
-        { path: '/ranking-list', name: '排行榜' },
-        { path: '/singer', name: '歌手' },
-      ]
-    }
+const Sidebar = React.memo(() => {
+  let [activeId, setActiveId] = useState(0)
+  let [list] = useState([
+    { path: '/song-sheet', name: '歌单' },
+    { path: '/ranking-list', name: '排行榜' },
+    { path: '/singer', name: '歌手' }
+  ])
+
+  function select(index) {
+    setActiveId(index)
   }
 
-  render() {
-    const { activeId, list } = this.state
-    return (
-      <div className={style.sideInner}>
-        {list.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => this.select(index)}
-            className={`${style.item} ${
-              activeId === index ? style.active : ''
-              }`}
-          >
-            <Link to={item.path}>
-              {item.name}
-            </Link>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  select(index) {
-    this.setState({
-      activeId: index
-    })
-  }
-}
+  return (
+    <div className={style.sideInner}>
+      {list.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => select(index)}
+          className={`${style.item} ${
+            activeId === index ? style.active : ''
+            }`}
+        >
+          <Link to={item.path}>
+            {item.name}
+          </Link>
+        </div>
+      ))}
+    </div>
+  )
+})
 
 export default Sidebar
