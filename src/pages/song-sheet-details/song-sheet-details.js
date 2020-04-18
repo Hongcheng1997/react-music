@@ -1,43 +1,41 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
 import SongsTable from './components/songs-table/songs-table'
 import style from './song-sheet-details.module.scss'
 
-class SongSheetDetails extends PureComponent {
-  render() {
-    const { playList } = this.props
-    return (
-      <div className={style.sheetDetails}>
-        <header className={style.header}>
-          <div className={style.head}>
-            <img src={playList.coverImgUrl} alt=""></img>
-          </div>
-          <div className={style.headerContent}>
-            <h1>{playList.name}</h1>
-            <p className={style.tags}>
-              标签：<span>{playList.tags && playList.tags.join(' / ')}</span>
-            </p>
-            <p className={style.description}>简介：{playList.description}</p>
-          </div>
-        </header>
-        <div className={`${style.song}`}>
-          <span className={style.number}></span>
-          {/* <span className={style.operation}>操作</span> */}
-          <span className={style.name}>歌曲</span>
-          <span className={style.singer}>歌手</span>
-          <span className={style.album}>专辑</span>
-          <span className={style.timer}>时长</span>
-        </div>
-        <SongsTable tracks={playList.tracks} />
-      </div>
-    )
-  }
+const SongSheetDetails = React.memo(props => {
+  const { playList, getData, match } = props
 
-  componentDidMount() {
-    this.props.getData(this.props.match.params.id)
-  }
-}
+  useEffect(() => {
+    getData(match.params.id)
+  }, [])
+
+  return (
+    <div className={style.sheetDetails}>
+      <header className={style.header}>
+        <div className={style.head}>
+          <img src={playList.coverImgUrl} alt=""></img>
+        </div>
+        <div className={style.headerContent}>
+          <h1>{playList.name}</h1>
+          <p className={style.tags}>
+            标签：<span>{playList.tags && playList.tags.join(' / ')}</span>
+          </p>
+          <p className={style.description}>简介：{playList.description}</p>
+        </div>
+      </header>
+      <div className={`${style.song}`}>
+        <span className={style.number}></span>
+        <span className={style.name}>歌曲</span>
+        <span className={style.singer}>歌手</span>
+        <span className={style.album}>专辑</span>
+        <span className={style.timer}>时长</span>
+      </div>
+      <SongsTable tracks={playList.tracks} />
+    </div>
+  )
+})
 
 const mapStateToProps = (state) => {
   return {

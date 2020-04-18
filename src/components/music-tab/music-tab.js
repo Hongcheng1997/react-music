@@ -1,13 +1,23 @@
 import React from 'react'
+import { message } from 'antd';
 import { connect } from 'react-redux'
 import { getShowPlayerAction } from '../../store/actionCreators'
 import style from './music-tab.module.scss'
 
-const MusicTab = props => {
-  const { currentMusic } = props
+const MusicTab = React.memo(props => {
+  const { currentMusic, musicUrl, showPlayer } = props
+
+  function handlePlayer() {
+    if (musicUrl) {
+      showPlayer()
+    } else {
+      message.info('此歌曲无法播放');
+    }
+  }
+
   return (
     <div className={style.MusicTab}>
-      <div className={style.musicHead} onClick={props.showPlayer}>
+      <div className={style.musicHead} onClick={handlePlayer}>
         <img src={currentMusic.al && currentMusic.al.picUrl} alt=''></img>
         <div className={style.top}>
           <i className="iconfont icon-jiantou_yemian_xiangshang_o"></i>
@@ -19,11 +29,12 @@ const MusicTab = props => {
       </div>
     </div>
   )
-}
+})
 
 const mapStateToProps = state => {
   return {
-    currentMusic: state.getIn(['common', 'currentMusic']).toJS()
+    currentMusic: state.getIn(['common', 'currentMusic']).toJS(),
+    musicUrl: state.getIn(['common', 'musicUrl'])
   }
 }
 

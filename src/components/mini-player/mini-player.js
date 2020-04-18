@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { connect } from 'react-redux'
-import { getPlayStatusAction, getCurrentIndexAction, getTimeToLyricAction, getMusicUrl, getLyric } from '../../store/actionCreators'
+import { getPlayStatusAction, getCurrentIndexAction, getTimeToLyricAction, getMusicUrl } from '../../store/actionCreators'
 import Progress from '../progress/progress'
 import MusicTab from '../music-tab/music-tab'
 import Volume from '../volume'
@@ -13,226 +12,184 @@ const LISTLOOP = 1
 const SINGLELOOP = 2
 const RANDOM = 3
 
-class MiniPlayer extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentTime: 0,
-      volume: 1,
-      showDrawer: false,
-      playMode: LISTLOOP
+const MiniPlayer = React.memo(props => {
+  let [currentTime, setCurrentTime] = useState(0)
+  let [volume, setVolume] = useState(1)
+  let [showDrawer, setShowDrawer] = useState(false)
+  let [playMode, setPlayMode] = useState(LISTLOOP)
+  const { playList, currentIndex, playStatus, currentMusic, musicUrl, showPlayer, setTimeToLyric, setCurrentIndex, setPlayStatus, handlePlay, dispatchUrl } = props
+  const proportion = currentTime / (currentMusic.dt / 1000)
+  const audioEl = useRef()
+
+  useEffect(() => {
+    if (currentMusic.id) {
+      dispatchUrl(currentMusic.id)
     }
-    this.prev = this.prev.bind(this)
-    this.next = this.next.bind(this)
-    this.setVolume = this.setVolume.bind(this)
-    this.handleDrawer = this.handleDrawer.bind(this)
-    this.toggleStatus = this.toggleStatus.bind(this)
-    this.setAudioTime = this.setAudioTime.bind(this)
-    this.playModeIcon = this.playModeIcon.bind(this)
-    this.handleMode = this.handleMode.bind(this)
+  }, [currentMusic.id])
+
+  useEffect(() => {
+    playStatus && audioEl.current.play()
+  }, [musicUrl])
+
+  useEffect(() => {
+    if (showPlayer) {
+      document.getElementById("play").style.color = 'white'
+      document.getElementById("play").style.backgroundColor = 'rgba(255,255,255,0)'
+      setTimeout(() => {
+        document.getElementById("play").style.zIndex = '1'
+      }, 300)
+    } else {
+      document.getElementById("play").removeAttribute("style")
+    }
+  }, [showPlayer])
+
+  // const setAudioTime = useCallback((percent) => {
+  //   if (!currentMusic.id) return
+  //   setTimeToLyric(currentMusic.dt / 1000 * percent)
+  //   audioEl.current.currentTime = currentMusic.dt / 1000 * percent
+  // }, [])
+
+  const updateToProportion = useCallback(percent => {
+    if (percent !== undefined) audioEl.current.volume = Math.min(Math.max(0, percent.toFixed(1)), 1)
+    setVolume(audioEl.current.volume)
+  }, [])
+
+  function setAudioTime(percent) {
+    if (!currentMusic.id) return
+    setTimeToLyric(currentMusic.dt / 1000 * percent)
+    audioEl.current.currentTime = currentMusic.dt / 1000 * percent
   }
 
-  render() {
-    const { currentTime, volume, showDrawer } = this.state
-    const { musicUrl, playList, currentMusic, showPlayer } = this.props
-    const proportion = currentTime / (currentMusic.dt / 1000)
-    return (
-      <div className={style.play} id="play">
-        <div className={style.progressWrap}>
-          <Progress proportion={proportion} updateToProportion={this.setAudioTime} />
-        </div>
-
-        <div className={style.operation}>
-          <div className={style.tabWrap}>
-            {currentMusic.id && !showPlayer && <MusicTab handlePlay={this.props.handlePlay}></MusicTab>}
-          </div>
-
-          <div className={style.cutSong}>
-            <div>
-              {this.playModeIcon()}
-            </div>
-            <i className={`iconfont icon-shangyishou ${style.shangyishou}`} onClick={this.prev}></i>
-            <div className={style.center} onClick={this.toggleStatus}>
-              <i className={`iconfont ${this.iconStatus()}`}></i>
-            </div>
-            <i className={`iconfont icon-xiayishou ${style.xiayishou}`} onClick={this.next}></i>
-            <Volume volume={volume} setVolume={this.setVolume}></Volume>
-          </div>
-
-          <div className={style.musicListWrap}>
-            <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt, true)}`}</span>
-            <i className="iconfont icon-musiclist" onClick={this.handleDrawer}></i>
-          </div>
-        </div>
-
-        <Drawer
-          width="300"
-          title={<div style={{ color: 'var(--body-color)' }}>播放列表</div>}
-          headerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
-          drawerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
-          placement="right"
-          closable={false}
-          onClose={this.handleDrawer}
-          visible={showDrawer}
-        >
-          {
-            playList.map((item, index) => {
-              return (
-                <div
-                  key={item.id}
-                  onDoubleClick={() => { this.props.setCurrentIndex(index) }}
-                  className={`${style.drawerItem} ${item.id === currentMusic.id ? style.active : ''}`}
-                >
-                  <p className={style.name}>{item.name}</p>
-                  <p className={style.info}>
-                    <span>{item.ar[0].name}</span>
-                    <span>{formatTime(item.dt, true)}</span>
-                  </p>
-                </div>
-              )
-            })
-          }
-        </Drawer>
-        <audio ref="_audio" src={musicUrl} ></audio>
-      </div>
-    )
+  function next() {
+    console.log(playList)
+    if (playList.length) {
+      if (currentIndex === playList.length - 1) {
+        setCurrentIndex(0)
+        return
+      }
+      setCurrentIndex(currentIndex + 1)
+    }
   }
 
-  playModeIcon() {
-    switch (this.state.playMode) {
+  function prev() {
+    if (playList.length) {
+      if (currentIndex - 1 <= 0) {
+        setCurrentIndex(0)
+        return
+      }
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
+
+  function toggleStatus() {
+    if (currentMusic.id) {
+      setPlayStatus(!playStatus)
+      if (playStatus) {
+        audioEl.current.pause()
+      } else {
+        audioEl.current.play()
+      }
+    }
+  }
+
+  function handleDrawer() {
+    setShowDrawer(!showDrawer)
+  }
+
+  function audioTimeUpdate() {
+    setCurrentTime(audioEl.current.currentTime)
+  }
+
+  function ended() {
+    if (playMode === LISTLOOP) {
+      next()
+    }
+    if (playMode === SINGLELOOP) {
+      audioEl.current.play()
+      setTimeToLyric(0)
+    }
+    if (playMode === RANDOM) {
+      const index = getRandomInt(0, playList.length)
+      setCurrentIndex(index)
+    }
+  }
+
+  function iconStatus() {
+    return playStatus ? 'icon-iconstop' : 'icon-bofang'
+  }
+
+  function playModeIcon() {
+    switch (playMode) {
       case RANDOM:
-        return <i className="iconfont icon-random" onClick={this.handleMode}></i>
+        return <i className="iconfont icon-random" onClick={() => { setPlayMode(LISTLOOP) }}></i>
       case SINGLELOOP:
-        return <i className="iconfont icon-danquxunhuan" onClick={this.handleMode}></i>
+        return <i className="iconfont icon-danquxunhuan" onClick={() => { setPlayMode(RANDOM) }}></i>
       default:
-        return <i className="iconfont icon-xunhuan" onClick={this.handleMode}></i>
+        return <i className="iconfont icon-xunhuan" onClick={() => { setPlayMode(SINGLELOOP) }}></i>
     }
   }
 
-  componentDidMount() {
-    this._audio = ReactDOM.findDOMNode(this.refs._audio)
-    this.bindEvent()
-  }
+  return (
+    <div className={style.play} id="play">
+      <div className={style.progressWrap}>
+        <Progress proportion={proportion} updateToProportion={updateToProportion} />
+      </div>
 
-  componentDidUpdate(preProps) {
-    if (preProps.currentMusic.id !== this.props.currentMusic.id) {
-      this.props.getMusicUrl(this.props.currentMusic.id)
-      this.props.getLyric(this.props.currentMusic.id)
-    }
+      <div className={style.operation}>
+        <div className={style.tabWrap}>
+          {currentMusic.id && !showPlayer && <MusicTab handlePlay={handlePlay}></MusicTab>}
+        </div>
 
-    if (preProps.musicUrl !== this.props.musicUrl && this.props.playStatus) {
-      this._audio.play()
-    }
+        <div className={style.cutSong}>
+          <div>
+            {playModeIcon()}
+          </div>
+          <i className={`iconfont icon-shangyishou ${style.shangyishou}`} onClick={prev}></i>
+          <div className={style.center} onClick={toggleStatus}>
+            <i className={`iconfont ${iconStatus()}`}></i>
+          </div>
+          <i className={`iconfont icon-xiayishou ${style.xiayishou}`} onClick={next}></i>
+          <Volume volume={volume} setVolume={setVolume}></Volume>
+        </div>
 
-    if (preProps.showPlayer !== this.props.showPlayer) {
-      if (this.props.showPlayer) {
-        document.getElementById("play").style.color = 'white'
-        document.getElementById("play").style.backgroundColor = 'rgba(255,255,255,0)'
-        setTimeout(() => {
-          document.getElementById("play").style.zIndex = '1'
-        }, 300)
-      } else {
-        document.getElementById("play").removeAttribute("style")
-      }
-    }
-  }
+        <div className={style.musicListWrap}>
+          <span className={style.time}>{`${formatTime(currentTime)} / ${formatTime(currentMusic.dt, true)}`}</span>
+          <i className="iconfont icon-musiclist" onClick={handleDrawer}></i>
+        </div>
+      </div>
 
-  componentWillUnmount() {
-    this.unBindEvent()
-  }
-
-  next() {
-    if (this.props.playList.length) {
-      if (this.props.currentIndex === this.props.playList.length - 1) {
-        this.props.setCurrentIndex(0)
-        return
-      }
-      this.props.setCurrentIndex(this.props.currentIndex + 1)
-    }
-  }
-
-  prev() {
-    if (this.props.playList.length) {
-      if (this.props.currentIndex - 1 <= 0) {
-        this.props.setCurrentIndex(0)
-        return
-      }
-      this.props.setCurrentIndex(this.props.currentIndex - 1)
-    }
-  }
-
-  toggleStatus() {
-    if (this.props.currentMusic.id) {
-      this.props.setPlayStatus(!this.props.playStatus)
-      if (this.props.playStatus) {
-        this._audio.pause()
-      } else {
-        this._audio.play()
-      }
-    }
-  }
-
-  handleDrawer() {
-    this.setState({
-      showDrawer: !this.state.showDrawer
-    })
-  }
-
-  audioTimeUpdate() {
-    this.setState({
-      currentTime: this._audio.currentTime
-    })
-  }
-
-  setAudioTime(percent) {
-    if (!this.props.currentMusic.id) return
-    this.props.setTimeToLyric(this.props.currentMusic.dt / 1000 * percent)
-    this._audio.currentTime = this.props.currentMusic.dt / 1000 * percent
-  }
-
-  setVolume(percent) {
-    if (percent !== undefined) this._audio.volume = Math.min(Math.max(0, percent.toFixed(1)), 1)
-    this.setState({
-      volume: this._audio.volume
-    })
-  }
-
-  handleMode() {
-    this.setState((preState) => ({
-      playMode: preState.playMode === RANDOM ? LISTLOOP : ++preState.playMode
-    }))
-  }
-
-  ended() {
-    if (this.state.playMode === LISTLOOP) {
-      this.next()
-    }
-    if (this.state.playMode === SINGLELOOP) {
-      this._audio.play()
-      this.props.setTimeToLyric(0)
-    }
-    if (this.state.playMode === RANDOM) {
-      const index = getRandomInt(0, this.props.playList.length)
-      this.props.setCurrentIndex(index)
-    }
-  }
-
-  iconStatus() {
-    return this.props.playStatus
-      ? 'icon-iconstop'
-      : 'icon-bofang'
-  }
-
-  bindEvent() {
-    this._audio.addEventListener('ended', this.ended.bind(this))
-    this._audio.addEventListener('timeupdate', this.audioTimeUpdate.bind(this))
-  }
-
-  unBindEvent() {
-    this._audio.removeEventListener('ended', this.ended.bind(this))
-    this._audio.removeEventListener('timeupdate', this.audioTimeUpdate.bind(this))
-  }
-}
+      <Drawer
+        width="300"
+        title={<div style={{ color: 'var(--body-color)' }}>播放列表</div>}
+        headerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
+        drawerStyle={{ backgroundColor: 'var(--body-bgcolor)' }}
+        placement="right"
+        closable={false}
+        onClose={handleDrawer}
+        visible={showDrawer}
+      >
+        {
+          playList.map((item, index) => {
+            return (
+              <div
+                key={item.id}
+                onDoubleClick={() => { setCurrentIndex(index) }}
+                className={`${style.drawerItem} ${item.id === currentMusic.id ? style.active : ''}`}
+              >
+                <p className={style.name}>{item.name}</p>
+                <p className={style.info}>
+                  <span>{item.ar[0].name}</span>
+                  <span>{formatTime(item.dt, true)}</span>
+                </p>
+              </div>
+            )
+          })
+        }
+      </Drawer>
+      <audio ref={audioEl} src={musicUrl} onTimeUpdate={audioTimeUpdate} onEnded={ended}></audio>
+    </div>
+  )
+})
 
 const mapStateToProps = state => {
   return {
@@ -255,11 +212,8 @@ const mapDispatchToProps = dispatch => ({
   setTimeToLyric: time => {
     dispatch(getTimeToLyricAction(time))
   },
-  getMusicUrl: id => {
+  dispatchUrl: id => {
     dispatch(getMusicUrl(id))
-  },
-  getLyric: id => {
-    dispatch(getLyric(id))
   }
 })
 
