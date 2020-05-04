@@ -24,7 +24,7 @@ const SongsTable = React.memo(props => {
   return (
     <div className={style.list}>
       {
-        tracks?.map((item, index) => {
+        tracks && tracks.map((item, index) => {
           return (
             <div
               key={item.id}
