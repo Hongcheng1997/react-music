@@ -9,7 +9,7 @@ const SongSheetDetails = React.memo(props => {
 
   useEffect(() => {
     getData(match.params.id)
-  }, [])
+  }, [match.params.id, getData])
 
   return (
     <div className={style.sheetDetails}>

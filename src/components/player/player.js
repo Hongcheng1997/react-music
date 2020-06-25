@@ -24,11 +24,11 @@ const Player = React.memo((props) => {
     setLyricIndex(0)
     scrollInstance = new BScroll(document.querySelector('#LyricScroll'))
     playStatus && !lyricIndex && lyricInstance.play()
-  }, [lyric])
+  }, [lyric, lyricIndex, playStatus])
 
   useEffect(() => {
     lyricIndex && lyricInstance.togglePlay()
-  }, [playStatus])
+  }, [playStatus, lyricIndex])
 
   useEffect(() => {
     lyricInstance.seek(timeToLyric * 1000)

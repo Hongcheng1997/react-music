@@ -25,11 +25,11 @@ const MiniPlayer = React.memo(props => {
     if (currentMusic.id) {
       dispatchUrl(currentMusic.id)
     }
-  }, [currentMusic.id])
+  }, [dispatchUrl, currentMusic.id])
 
   useEffect(() => {
     playStatus && audioEl.current.play()
-  }, [musicUrl])
+  }, [playStatus, musicUrl])
 
   useEffect(() => {
     if (showPlayer) {
@@ -54,11 +54,11 @@ const MiniPlayer = React.memo(props => {
     setVolume(audioEl.current.volume)
   }, [])
 
-  function setAudioTime(percent) {
-    if (!currentMusic.id) return
-    setTimeToLyric(currentMusic.dt / 1000 * percent)
-    audioEl.current.currentTime = currentMusic.dt / 1000 * percent
-  }
+  // function setAudioTime(percent) {
+  //   if (!currentMusic.id) return
+  //   setTimeToLyric(currentMusic.dt / 1000 * percent)
+  //   audioEl.current.currentTime = currentMusic.dt / 1000 * percent
+  // }
 
   function next() {
     if (playList.length) {

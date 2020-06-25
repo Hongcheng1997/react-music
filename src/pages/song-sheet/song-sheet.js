@@ -14,7 +14,7 @@ const SongSheet = React.memo((props) => {
   useEffect(() => {
     getSongSheet(page)
     getHotLabel()
-  }, [])
+  }, [getHotLabel, getSongSheet, page])
 
   function handleFilter(cat) {
     setActiveLabel(cat)
