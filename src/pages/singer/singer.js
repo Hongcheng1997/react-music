@@ -1,11 +1,7 @@
-import React, { PureComponent } from 'react'
+import React from "react";
 
-class Singer extends PureComponent {
-  render() {
-    return (
-      <p>singer</p>
-    )
-  }
-}
+const Singer = () => {
+  return <p>singer</p>;
+};
 
-export default Singer
+export default Singer;

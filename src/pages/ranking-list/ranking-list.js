@@ -1,11 +1,7 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 
-class RankingList extends PureComponent {
-  render() {
-    return (
-      <p>RankingList</p>
-    )
-  }
+const RankingList = () => {
+  return <p>RankingList</p>
 }
 
 export default RankingList
