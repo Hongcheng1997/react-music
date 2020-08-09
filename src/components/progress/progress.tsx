@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types';
 import style from './progress.module.scss'
 
-let barLeft = 0
-let barWidth = 0
+let barLeft: number = 0
+let barWidth: number = 0
 
-const Progress = React.memo((props) => {
-  const barEl = useRef()
-  const innerEl = useRef()
+const Progress: React.FC<any> = React.memo((props) => {
+  const barEl = useRef<HTMLDivElement>()
+  const innerEl = useRef<HTMLDivElement>()
   let [padding, setPadding] = useState(false)
   let [showPoint, setShowPoint] = useState(false)
   const { proportion, updateToProportion } = props

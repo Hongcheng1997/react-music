@@ -16,7 +16,7 @@ const RankingList = lazy(() => import('./pages/ranking-list/ranking-list'))
 const SongSheet = lazy(() => import('./pages/song-sheet/song-sheet'))
 const SongSheetDetails = lazy(() => import('./pages/song-sheet-details/song-sheet-details'))
 
-const App = () => {
+const App: React.FC<any> = () => {
   return (
     <Router>
       <div>
